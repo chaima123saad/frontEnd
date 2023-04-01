@@ -1,66 +1,70 @@
- /* Header */
- 
- .header {
-   
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    z-index:auto;
-    /* width: 81%; */
-    background-color: rgb(255, 255, 255);
-    border-bottom: 1px solid rgb(240, 240, 240);
-  }
-  
-  .header-search {
-    display: flex;
-    align-items: center;
-  }
-  
-  .header-search input {
-    padding: 10px;
-    width: 350px;
-    height: 25px;
-    
-    border-radius: 20px;
-    margin-right: 10px;
-    font-size: 16px;
-  }
-  
-  .header-search i {
-    font-size: 16px;
-    color: #45a29e;
-  }
-  
-  .header-user {
-    display: flex;
-    align-items: center;
-  }
-  
-  .header-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .header-user-details {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .header-name {
-    font-size: 16px;
-    margin: 0;
-  }
- 
-  .header-specialty {
-    font-size: 14px;
-  }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #333; */
+  color: black;
+  height: 60px;
+  padding: 0 20px;
+  width: 100%;
+}
 
-  @media screen and (max-width: 1080px) {
-    .header {
-     justify-content: center;
-     gap: 2rem;
-    }
-  }
+
+
+.header__search {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.header__search input[type="text"] {
+  border: 1px solid #555;
+  border-radius: 20px;
+  /* background-color: #555; */
+
+  padding: 8px 16px 8px 40px;
+  width: 300px;
+  font-size: 16px;
+}
+
+.header__search input[type="text"]:focus {
+  outline: none;
+}
+
+.header__search i.fa {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header__dropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+}
+img{
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+.user__details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  gap: 0.5rem;
+}
+h3{
+  line-height: 15px !important;
+  margin: 0 !important;
+}
+p{
+  margin: 0 !important;
+  line-height: 15px !important;
+}
+
+
+
+

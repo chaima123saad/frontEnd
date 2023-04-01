@@ -1,0 +1,13 @@
+ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark.css-dev-only-do-not-override-1e3x2xa{
+    background-color: white !important;
+}
+aside.ant-layout-sider.ant-layout-sider-dark{
+    background-color: white !important;
+    border-right: 1px solid rgb(192, 187, 187);
+}
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark, :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark>.ant-menu{
+    color: gray !important;
+}
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark, :where(.mencss-dev-only-do-not-override-1e3x2xa).ant-menu-dark>.ant-u{
+    background-color: white;
+}

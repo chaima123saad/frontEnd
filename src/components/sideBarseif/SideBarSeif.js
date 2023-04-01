@@ -1,87 +1,88 @@
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
+import './sidebar.css'
+import { Layout, Menu, theme } from 'antd';
+import React, { useState } from 'react';
+import HeaderTwo from "../manager/header";
 
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
-const items = [
-  getItem('Option 1', '1'),
-  getItem('Option 2', '2'),
-  getItem('User', 'sub1', [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9'),
-];
-const Sidebar = () => {
+const { Header, Sider, Content } = Layout;
+
+const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  
   return (
-    <Layout
-      style={{
-        minHeight: '100vh',
-      }}
-    >
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div
-          style={{
-            height: 32,
-            margin: 16,
-            background: 'rgba(255, 255, 255, 0.2)',
-          }}
-        />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
-      <Layout className="site-layout">
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content
-          style={{
-            margin: '0 16px',
-          }}
-        >
-          <Breadcrumb
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
+    <Layout style={{ height: '100vh',display:"flex", flexDirection:"column" ,backgrounColor:'#fff !important'}}>
+      <Header
+        style={{
+          padding: 0,
+          background: colorBgContainer,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          // height: '20vh',
+          zIndex: 1,
+          borderBottom:'1px solid gray'
+        }}
+      >
+        <div style={{ flex: 1 , display:"flex", alignItems:'center', gap:'2rem'}}>
+        <h1 style={{paddingLeft:'1.5rem'}}>LOGO</h1>
+          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+            className: 'trigger',
+            onClick: () => setCollapsed(!collapsed),
+          })}
+          
+          <HeaderTwo />
+        </div>
+        
+      </Header>
+      <Layout>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <div className="logo" />
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={['1']}
+            items={[
+              {
+                key: '1',
+                icon: <UserOutlined />,
+                label: 'nav 1',
+              },
+              {
+                key: '2',
+                icon: <VideoCameraOutlined />,
+                label: 'nav 2',
+              },
+              {
+                key: '3',
+                icon: <UploadOutlined />,
+                label: 'nav 3',
+              },
+            ]}
+          />
+        </Sider>
+        <Layout style={{ padding: '0 24px 24px', background: colorBgContainer }}>
+          <Content
             style={{
               padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
+              margin: 0,
+              minHeight: 280,
             }}
           >
-            Bill is a cat.
-          </div>
-        </Content>
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+            Content
+          </Content>
+        </Layout>
       </Layout>
     </Layout>
   );
 };
-export default Sidebar;
+
+export default App;
