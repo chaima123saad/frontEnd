@@ -68,3 +68,12 @@ p{
 
 
 
+@media screen and (max-width: 768px) {
+   .header__search {
+    display: none;
+  }
+  .user__details{
+    align-self: flex-end;
+  }
+ 
+}

@@ -20,7 +20,7 @@ function Header() {
     />
     <div className="user__details">
       <h3 className="header-name">John Doe</h3>
-      <p className="header-specialty">Project Manager</p>
+      <p className="header-specialty"> Manager</p>
     </div>
     </div>
     </header>
