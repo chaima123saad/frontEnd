@@ -5,15 +5,16 @@
     height: 100%;
     width: 300px;
     transition: right 0.3s ease-in-out;
-    /* display: none; */
+     display: none; 
   }
   
   .right-drawer.open {
     right: 0 !important;
+    display: block !important;
   }
   
   .right-drawer .overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;

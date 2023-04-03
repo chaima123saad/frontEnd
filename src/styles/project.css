@@ -1,4 +1,6 @@
-
+body{
+  overflow: hidden;
+}
 .manager-container {
     display: flex;
     padding: 0;

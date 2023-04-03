@@ -7,7 +7,7 @@ import './dashboard.css'
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(false);
 
-
+console.log(isOpen,'isOpen')
   return (
     <div className="manager-container">
     <div className="content-container">
