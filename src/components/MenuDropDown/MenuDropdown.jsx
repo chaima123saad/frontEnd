@@ -113,12 +113,13 @@ const MenuDropdown = () => {
                       url="/profile"
                     />
                   </MenuItem>
-                  <MenuItem onClick={() => handleLogout()} component={Link} to="/login">
+                  <MenuItem  component={Link} to="/login">
                     <ActionLink
                       label="Déconnecter"
                       icon={<MdLogout />}
                       className="text-muted full-width"
                       url="/login"
+                      onClick={() => handleLogout()}
                     />
                   </MenuItem>
                 </MenuList>

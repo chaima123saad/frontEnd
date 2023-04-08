@@ -12,6 +12,9 @@ const columns = [
   {
     title: 'Address',
     dataIndex: 'address',
+  },{
+    title: 'action',
+    dataIndex: 'action',
   },
 ];
 const data = [];
