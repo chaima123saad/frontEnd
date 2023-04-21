@@ -43,11 +43,7 @@
   align-items: center;
   height: 30px;
 }
-img{
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-}
+
 .user__details{
   display: flex;
   flex-direction: column;
@@ -56,10 +52,7 @@ img{
   height: fit-content;
   gap: 0.5rem;
 }
-h3{
-  line-height: 15px !important;
-  margin: 0 !important;
-}
+
 p{
   margin: 0 !important;
   line-height: 15px !important;

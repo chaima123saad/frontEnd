@@ -1,9 +1,14 @@
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  ProjectOutlined,
+  DashboardOutlined,
+  FundProjectionScreenOutlined,
+  TeamOutlined,
+  CarryOutOutlined,
+  FolderOpenOutlined,
+  HistoryOutlined
 } from "@ant-design/icons";
 import { useWindowSize } from "../../utils/useWindowSize"; 
 import { Link, Outlet, useLocation } from "react-router-dom";
@@ -11,7 +16,6 @@ import "./sidebar.css";
 import { Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
 import HeaderTwo from "../manager/header";
-import MenuDropdown from "../MenuDropDown/MenuDropdown";
 const { Header, Sider, Content } = Layout;
 
 const App = () => {
@@ -29,21 +33,51 @@ const App = () => {
   const links =[
     {
       key: "nav1",
-      icon: <UserOutlined />,
-      label: "nav 1",
+      icon: <DashboardOutlined />,
+      label: "Dashboard",
       route: "/",
     },
     {
       key: "nav2",
-      icon: <VideoCameraOutlined />,
-      label: "nav 2",
+      icon: <FundProjectionScreenOutlined />,
+      label: "Gérer projets",
       route: "/nav2",
     },
     {
       key: "nav3",
-      icon: <UploadOutlined />,
-      label: "nav 3",
+      icon: <ProjectOutlined />,
+      label: "Vérifier projets",
       route: "/nav3",
+    },
+    {
+      key: "nav4",
+      icon: <UserOutlined />,
+      label: "Employé",
+      route: "/nav4",
+    },
+    {
+      key: "nav5",
+      icon: <TeamOutlined />,
+      label: "Equipes",
+      route: "/nav5",
+    },
+    {
+      key: "nav6",
+      icon: <CarryOutOutlined />,
+      label: "Taches",
+      route: "/nav6",
+    },
+    {
+      key: "nav7",
+      icon: <FolderOpenOutlined />,
+      label: "Explorer l'archive",
+      route: "/nav7",
+    },
+    {
+      key: "nav8",
+      icon: <HistoryOutlined />,
+      label: "Vérifier historique",
+      route: "/nav8",
     },
   ]
   const items = links.map((item) => {

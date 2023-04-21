@@ -1,0 +1,126 @@
+
+  
+  
+  .done .taskText {
+    text-decoration: line-through;
+    opacity: 0.3;
+  }
+  
+  
+  .taskBg {
+    border-radius: 6px;
+    margin-bottom: 5px;
+    padding: 10px 140px 10px 15px;
+    text-align: left;
+    font-size: 17px;
+    position: relative;
+  }
+  
+  .taskBg div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .taskBg .iconsWrap {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    width: auto;
+    display: inline-block;
+  }
+  
+  .taskBg .iconsWrap span {
+    display: inline-block;
+    margin: 0px 10px 0 10px;
+    cursor: pointer;
+    color: #0085FF;
+  }
+  
+  
+  .taskBg .iconsWrap span:focus-visible {
+    outline: none;
+  }
+  
+  .taskBg .iconsWrap span:hover {
+    color: #2B9D2F;
+  }
+  
+  .mr-20 {
+    margin-right: 20px;
+  }
+  
+  .taskNumber {
+    color: #0085FF;
+    border: 1px solid #0085FF;
+    border-radius: 50%;
+    width: 19px;
+    height: 19px;
+    display: flex;
+    text-align: center;
+    font-size: 14px;
+    margin-right: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .taskText {
+    flex: 1;
+  }
+  .inputTask1{
+    width: 25rem;
+    border-radius: 10px;
+    border-color: #bbbbbb;
+    transition: ease 0.05s;
+  }
+  .inputTask1:focus{
+    outline: none;
+    border: #0085FF 2px solid;
+  }
+  .inputTask2{
+    width: 20rem;
+    border-radius: 10px;
+    border-color: #bbbbbb;
+    transition: ease 0.05s;
+  }
+  .inputTask2:focus{
+    outline: none;
+    border: #0085FF 2px solid;
+  }
+  .btn_add,.btn_update,.btn_cancel{
+    background-color: #0085FF;
+    color: white;
+    border-style: none;
+    width: 100px;
+    height: 35px;
+    border-radius: 7px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: ease 0.4s;
+  }
+  .btn_update:hover{
+    background-color: #ffffff;
+    color:#0085FF;
+    border: 1px solid #0085FF;
+  }
+  .btn_add:hover{
+    background-color: #ffffff;
+    color:#0085FF;
+    border: 1px solid #0085FF;
+  }
+  .btn_cancel:hover{
+    background-color: #ffffff;
+    color:#0085FF;
+    border: 1px solid #0085FF;
+  }
+  .flex_{
+    display: flex;
+    gap:0.5rem;
+  }
+  .title_subtask{
+    font-size: 18px;
+    color: #777676;
+    padding-top:20px;
+    padding-bottom: 15px;
+
+  }

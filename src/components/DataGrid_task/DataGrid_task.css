@@ -1,0 +1,123 @@
+.Content_task{
+    display:flex;
+    flex-direction: row;
+    gap: 4rem;
+  }
+
+.card {
+    background-color: #fff;
+    width: 20rem;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .card-title {
+    font-size: 15px;
+    margin: 0;
+  }
+  
+  .modify-icon {
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+
+  }
+  
+  .card-subheader {
+    background-color: #CEDDFA;
+    padding: 10px 20px;
+  }
+  
+  .card-date {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .card-content {
+    border: 4px solid #CEDDFA;
+    padding: 10px 10px;
+    border-radius: 0 0 5px 5px;
+    width:100%;
+    height: 100%;
+  }
+  
+  .card-description {
+    font-size: 15px;
+    margin: 0;
+    font-family: 'Roboto', sans-serif; 
+    padding-top: 10px;
+
+}
+
+
+  .circle_1{
+    margin-left: 1.5rem;
+  }
+  .circle_1::before{
+    content: '';
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: red;
+    position: absolute;
+    border-radius: 50%;
+    margin-left: -1.3rem;
+  }
+  .circle_2{
+    margin-left: 1.5rem;
+  }
+  .circle_2::before{
+    content: '';
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: #FFB800;
+    position: absolute;
+    border-radius: 50%;
+    margin-left: -1.3rem;
+  }
+
+  .circle_3{
+    margin-left: 1.5rem;
+  }
+  .circle_3::before{
+    content: '';
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: #2B9D2F;
+    position: absolute;
+    border-radius: 50%;
+    margin-left: -1.3rem;
+  }
+.progress{
+    padding-top: 20px;
+}
+  .iconTask{
+    font-size: 20px;
+    color: rgb(153, 153, 153);
+    cursor: pointer;
+  }
+  .card-footer{
+    display: flex;
+    padding-top: 10px;
+    justify-content: space-between;
+    
+  }
+
+ .button_color1{
+    width: 10px;
+    height: 10px;
+    background-color: green;
+  } 

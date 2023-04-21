@@ -74,7 +74,7 @@ const MenuDropdown = () => {
           }}
         ></button>
       )}
-      <Button
+      <Button className='btnuser'
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
@@ -86,8 +86,8 @@ const MenuDropdown = () => {
           id="img-preview"
         />
         <div className="user__info">
-          <span className="title">Welcome</span>
-          <span className="subtitle">saadseif304@gmail.com</span>
+          <span className="title">chaima saad</span>
+          <span className="subtitle">Manager</span>
         </div>
         <div className="icon-holder">
           <KeyboardArrowDown />

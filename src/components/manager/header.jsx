@@ -1,10 +1,6 @@
 import "../../styles/header.css";
 import React from 'react';
 import MenuDropdown from "../MenuDropDown/MenuDropdown";
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
-
 
 function Header() {
   return (

@@ -1,0 +1,47 @@
+.hero__content h2 {
+    font-weight: 600;
+    line-height: 55px;
+    font-size: 50px;
+  }
+  
+  .hero__content {
+    font-family: 'Archivo', sans-serif;
+    width: 40rem;
+  }
+  .text1{
+    font-family: 'Inter', sans-serif;
+    line-height: 120%;
+    letter-spacing: 0.08rem;
+  }
+.css-1k7ymg1{
+min-height: 0vh;
+  }
+  section{
+    position: relative;
+  }
+  .title_{
+    color: #0085FF;
+  }
+  .login_ .btn_{
+    outline: none;
+    border: none;
+    background-color: #0085FF;
+    color: white;
+    width: 30%;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: ease 0.5s;
+  }
+  .login_ .btn_:hover{
+    background-color: #ffffff;
+    color: #0085FF;
+    border: solid #0085FF 2px;
+  }
+
+  .hero__title{
+  font-size: 2.5rem;
+  }
+  

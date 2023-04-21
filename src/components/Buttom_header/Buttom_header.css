@@ -1,0 +1,23 @@
+.projects-subtitle{
+    padding-top: 1rem;
+    font-family: 'Rubik', sans-serif;
+}
+.projects-title{
+    font-family: 'Rubik', sans-serif;
+
+}
+section.ant-layout.css-dev-only-do-not-override-1e3x2xa{
+padding: 0 !important;
+}
+main.ant-layout-content.css-dev-only-do-not-override-1e3x2xa{
+    padding: 0 !important;
+}
+@media screen and (max-width:900px) {
+  .ant-table{
+    width: 700px;
+    overflow-y: scroll;
+} 
+    
+}
+
+

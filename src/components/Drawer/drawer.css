@@ -1,22 +1,24 @@
 .drawer-wrapper{
   display: flex;
   height: 100vh;
-  width: 300px;
+  width: 400px;
   position: absolute;
-  background-color: red;
+  background-color: rgb(255, 255, 255);
   top: 0;
   right: 0;
   z-index: 999;
-  transition: ease 0.2s
+  transition: ease 0.3s
 }
 .hide-drawer{
   position: absolute;
+  background-color: rgb(255, 255, 255);
   top: 0;
- right: -300px;
- transition: ease 0.8s;
- height: 100vh;
-  width: 300px;
+  right: -400px;
+  height: 100vh;
+  width: 400px;
   z-index: 999;
+  transition: ease 0.8s;
+
 }
 .overlay{
   position: absolute;
