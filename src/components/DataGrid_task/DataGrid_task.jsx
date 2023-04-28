@@ -39,7 +39,7 @@ const [modalOpen, setModalOpen] = useState(false);
 
 <div className='col1'>
 <h1 className='circle_1'> To Do</h1>
-    <div className="card">
+    <div className="Taskcard">
       <div className="card-header">
         <h2 className="card-title">title</h2>
         <Dropdown
@@ -88,7 +88,7 @@ const [modalOpen, setModalOpen] = useState(false);
 
 
 
-    <div className="card">
+    <div className="Taskcard">
       <div className="card-header">
         <h2 className="card-title">title</h2>
         <Dropdown
@@ -132,7 +132,7 @@ const [modalOpen, setModalOpen] = useState(false);
 <div className='col2'>
 <span className='button_color2'></span>
 <h1 className='circle_2'> In Progress</h1>
-    <div className="card">
+    <div className="Taskcard">
       <div className="card-header">
         <h2 className="card-title">title</h2>
         <Dropdown
@@ -177,7 +177,7 @@ const [modalOpen, setModalOpen] = useState(false);
 <div className='col3'>
 <span className='button_color3'></span>
 <h1 className='circle_3'> Done</h1>
-    <div className="card">
+    <div className="Taskcard">
       <div className="card-header">
         <h2 className="card-title">title</h2>
         <Dropdown

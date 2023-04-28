@@ -8,7 +8,8 @@ import {
   TeamOutlined,
   CarryOutOutlined,
   FolderOpenOutlined,
-  HistoryOutlined
+  HistoryOutlined,
+  CommentOutlined
 } from "@ant-design/icons";
 import { useWindowSize } from "../../utils/useWindowSize"; 
 import { Link, Outlet, useLocation } from "react-router-dom";
@@ -40,43 +41,49 @@ const App = () => {
     {
       key: "nav2",
       icon: <FundProjectionScreenOutlined />,
-      label: "Gérer projets",
+      label: "Manage projects",
       route: "/nav2",
     },
     {
       key: "nav3",
       icon: <ProjectOutlined />,
-      label: "Vérifier projets",
+      label: "My projects",
       route: "/nav3",
     },
     {
-      key: "nav4",
+      key: "users",
       icon: <UserOutlined />,
-      label: "Employé",
-      route: "/nav4",
+      label: "Employee",
+      route: "/users",
     },
     {
       key: "nav5",
       icon: <TeamOutlined />,
-      label: "Equipes",
+      label: "Team",
       route: "/nav5",
+    },
+    {
+      key: "chat",
+      icon: <CommentOutlined />,
+      label: "Chat",
+      route: "/chat",
     },
     {
       key: "nav6",
       icon: <CarryOutOutlined />,
-      label: "Taches",
+      label: "Task",
       route: "/nav6",
     },
     {
       key: "nav7",
       icon: <FolderOpenOutlined />,
-      label: "Explorer l'archive",
+      label: "Explore archive",
       route: "/nav7",
     },
     {
       key: "nav8",
       icon: <HistoryOutlined />,
-      label: "Vérifier historique",
+      label: "Check my history",
       route: "/nav8",
     },
   ]
@@ -95,6 +102,7 @@ const App = () => {
         display: "flex",
         flexDirection: "column",
         backgrounColor: "#fff !important",
+        overflow:'hidden'
       }}
     >
       <Header
@@ -142,11 +150,11 @@ const App = () => {
           />
         </Sider>
         <Layout
-          style={{ padding: "0 24px 24px", background: colorBgContainer }}
+          style={{ padding: "0 24px 24px", background: colorBgContainer ,overflow:"scroll"}}
         >
           <Content
             style={{
-              padding: 24,
+              padding: 0,
               margin: 0,
               minHeight: 280,
             }}

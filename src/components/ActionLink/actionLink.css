@@ -17,7 +17,7 @@
      
     }
     action-link.text-muted:hover {
-        color: #1090e6;
+        color: rgba(0, 0, 139, 0.596);
       }
       action-link > .MuiSvgIcon-root {
       font-size: 20px !important;

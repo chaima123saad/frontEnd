@@ -4,7 +4,7 @@
     gap: 4rem;
   }
 
-.card {
+.Taskcard{
     background-color: #fff;
     width: 20rem;
     height: max-content;

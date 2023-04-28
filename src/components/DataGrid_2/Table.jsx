@@ -1,4 +1,4 @@
-import "./DataGrid.css";
+import "./Table.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -13,7 +13,7 @@ const Datatable = () => {
 
   useEffect(() => {
     Promise.all([
-      axios.get('http://localhost:2000/projects/'),
+      axios.get('http://localhost:2000/users/'),
       axios.get('http://localhost:2000/teams')
     ])
     .then(([usersResponse, teamsResponse]) => {
@@ -30,11 +30,12 @@ const Datatable = () => {
   function getRowId(row) {
     return row._id;
   }
-  const handleDelete = (projectId) => {
-    axios.delete(`http://localhost:2000/projects/deleteProject/${projectId}`)
+  const handleDelete = (userId) => {
+    console.log(userId);
+    axios.delete(`http://localhost:2000/users/deleteUser/${userId}`)
       .then(response => {
-        setData(data.filter(project => project._id !== projectId));
-        setSelectedRowKeys(selectedRowKeys.filter(key => key !== projectId));
+        setData(data.filter(user => user._id !== userId));
+        setSelectedRowKeys(selectedRowKeys.filter(key => key !== userId));
       })
       .catch(error => {
         console.log(error);
@@ -43,18 +44,35 @@ const Datatable = () => {
   
   
   const userColumns = [
-    { field: "_id",
-     headerName: "ID",
-     width: 100 },
+    { field: "_id", headerName: "ID", width: 70 },
     {
-      field: "name",
-      headerName: "Project",
-      width: 130,
+      field: "profileImage",
+      headerName: "User",
+      width: 230,
+      renderCell: (params) => {
+        const { profileImage, name } = params.row;
+        return (
+          <div className="cellWithImg">
+            <img className="cellImg" src={profileImage} alt="avatar" />
+            {name}
+          </div>
+        );
+      },
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 230,
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      width: 100,
     },
     {
       field: "team",
       headerName: "Team",
-      width: 130,
+      width: 160,
       renderCell: (params) => {
         const team = teams.find((t) => t._id === params.row.team);
         return (
@@ -64,22 +82,8 @@ const Datatable = () => {
         );
       },
     },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 150,
-    },
-    {
-      field: "clientName",
-      headerName: "Client",
-      width: 150,
-    },
-    {
-      field: "budge",
-      headerName: "Budge",
-      width: 150,
-    },
   ];
+  
   
   const actionColumn = [
     // your existing columns
@@ -90,9 +94,12 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            
+            <Link
+              to={`/users/${params.row._id}`}
+              style={{ textDecoration: "none" }}
+            >
               <div className="viewButton">View</div>
-            
+            </Link>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
@@ -109,18 +116,18 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Project
-        <Link to="/projects/new" className="link">
-          Add New Project
+        Employee
+        <Link to="/users/new" className="link">
+          Add New Employee
         </Link>
       </div>
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={[...userColumns,...actionColumn]}
+        columns={[...userColumns, ...actionColumn]}
         getRowId={getRowId}
         pageSize={7}
-        rowsPerPageOptions={[9]}
+        rowsPerPageOptions={[7]}
         checkboxSelection
       />
     </div>
