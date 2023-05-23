@@ -11,15 +11,17 @@ import {
   HistoryOutlined,
   CommentOutlined
 } from "@ant-design/icons";
+import img from "./tasks.png";
 import { useWindowSize } from "../../utils/useWindowSize"; 
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import "./sidebar.css";
 import { Layout, Menu, theme } from "antd";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import HeaderTwo from "../manager/header";
 const { Header, Sider, Content } = Layout;
 
-const App = () => {
+const Sidebar = () => {
+  const { id } = useParams();
   const [collapsed, setCollapsed] = useState(false);
   const width = useWindowSize();
  if (width < 700 ){
@@ -29,68 +31,68 @@ const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+ 
   const location = useLocation();
   const links =[
     {
       key: "nav1",
       icon: <DashboardOutlined />,
       label: "Dashboard",
-      route: "/",
+      route:`/manager/${id}`,
     },
     {
       key: "nav2",
       icon: <FundProjectionScreenOutlined />,
       label: "Manage projects",
-      route: "/nav2",
+      route: `/manager/${id}/projects`,
     },
     {
       key: "nav3",
       icon: <ProjectOutlined />,
       label: "My projects",
-      route: "/nav3",
+      route: `/manager/${id}/nav3`,
     },
     {
       key: "users",
       icon: <UserOutlined />,
       label: "Employee",
-      route: "/users",
+      route: `/manager/${id}/users`,
     },
     {
       key: "nav5",
       icon: <TeamOutlined />,
       label: "Team",
-      route: "/nav5",
+      route: `/manager/${id}/nav5`,
     },
     {
       key: "chat",
       icon: <CommentOutlined />,
       label: "Chat",
-      route: "/chat",
+      route: `/manager/${id}/chat`,
     },
     {
       key: "nav6",
       icon: <CarryOutOutlined />,
       label: "Task",
-      route: "/nav6",
+      route: `/manager/${id}/nav6`,
     },
     {
       key: "nav7",
       icon: <FolderOpenOutlined />,
       label: "Explore archive",
-      route: "/nav7",
+      route: `/manager/${id}/nav7`,
     },
     {
       key: "nav8",
       icon: <HistoryOutlined />,
       label: "Check my history",
-      route: "/nav8",
+      route: `/manager/${id}/nav8`,
     },
   ]
   const items = links.map((item) => {
     return {
       key: item.route || item.name.toLowerCase(),
-      label: item.route ? <Link to={item.route}>{item.label}</Link> : item.label,
+      label: <Link to={item.route}>{item.label}</Link>,
       icon: item.icon,
     };
   });
@@ -106,14 +108,14 @@ const App = () => {
       }}
     >
       <Header
+      className="head__"
         style={{
           padding: 0,
-          background: colorBgContainer,
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
           zIndex: 1,
-          borderBottom: "1px solid gray",
+          
         }}
       >
         <div
@@ -124,12 +126,13 @@ const App = () => {
             gap: "2rem",
           }}
         >
-          <h1 style={{ paddingLeft: "1.5rem" }}>LOGO</h1>
+          <img src={img} style={{ paddingLeft: "1.5rem",height:30 }}/>
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
               className: "trigger",
               onClick: () => setCollapsed(!collapsed),
+              style:{color:"#5f5f5f"}
             }
           )}
 
@@ -139,15 +142,14 @@ const App = () => {
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="logo" />
-          <Menu
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={[location.pathname]}
-            items={items}
-            // onClick={({ key }) => {
-            //   window.location.href = key;
-            // }}
-          />
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
+  {items.map((item) => (
+    <Menu.Item key={item.key} icon={item.icon}>
+      {item.label}
+    </Menu.Item>
+  ))}
+</Menu>
+
         </Sider>
         <Layout
           style={{ padding: "0 24px 24px", background: colorBgContainer ,overflow:"scroll"}}
@@ -167,4 +169,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Sidebar;

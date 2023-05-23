@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import {  useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState} from 'react';
+import { Link, useNavigate,useParams} from 'react-router-dom';
 import { MdLogout } from 'react-icons/md';
 import { CgProfile } from 'react-icons/cg';
+import {UserOutlined}from '@ant-design/icons';
+import { Modal } from 'antd';
+import Profil from "./Profil";
 // import { avatarByGender } from '../../utils/methods';
 import ActionLink from '../ActionLink/ActionLink';
 import "./menuDropdown.css";
@@ -17,11 +19,16 @@ import {
   Popper,
 } from '@mui/material';
 import { KeyboardArrowDown } from '@mui/icons-material';
+import axios from 'axios';
 const MenuDropdown = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  // const { user } = useSelector((state) => state.auth);
+  const [userInfo, setUserInfo] = useState(null);
+
+  const [open0, setOpen0] = useState(false);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -50,10 +57,21 @@ const MenuDropdown = () => {
 
     prevOpen.current = open;
   }, [open]);
+  useEffect(() => {
+    // make API request to fetch user info
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(`http://localhost:2000/users/${id}`); // assuming your API endpoint is /api/users/:id
+        setUserInfo(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    fetchUserInfo();
+  }, []);
   const handleLogout = async () => {
     try {
-      // dispatch({ type: 'LOGOUT' });
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -80,15 +98,22 @@ const MenuDropdown = () => {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Avatar
+        
+        {userInfo ? (
+          <>
+          <Avatar
           alt={'user-avatar'}
-          // src={avatarByGender({ avatar: null, gender: 'male' })}
-          id="img-preview"
+          id={userInfo.profileImage}
+          src={userInfo.profileImage}
         />
-        <div className="user__info">
-          <span className="title">chaima saad</span>
-          <span className="subtitle">Manager</span>
-        </div>
+          <div className="user__info">
+            <span className="title">{userInfo.name}</span>
+            <span className="subtitle">{userInfo.role}</span>
+          </div>
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
         <div className="icon-holder">
           <KeyboardArrowDown />
         </div>
@@ -104,15 +129,20 @@ const MenuDropdown = () => {
           >
             <Paper style={{ marginRight: '0.2rem' }}>
               <ClickAwayListener onClickAway={() => handleClose}>
-                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <MenuItem onClick={handleClose} component={Link} to="/profile">
-                    <ActionLink
-                      label="Mon profil"
-                      icon={<CgProfile fontSize="1.2rem" />}
-                      className="text-muted full-width"
-                      url="/profile"
-                    />
-                  </MenuItem>
+              <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+              <Button onClick={() => setOpen0(true)} style={{paddingLeft:20,color:'black',fontWeight:500,fontSize:18,color:'#363636',textTransform:'none'}}>
+                <UserOutlined />&nbsp;&nbsp; Profile
+              </Button>
+                <Modal
+                  title="Profile"
+                  centered
+                  open={open0}
+                  onOk={() => setOpen0(false)}
+                  onCancel={() => setOpen0(false)}
+                  width={700}
+                >
+                  <Profil/>
+                </Modal>
                   <MenuItem  component={Link} to="/login">
                     <ActionLink
                       label="Déconnecter"

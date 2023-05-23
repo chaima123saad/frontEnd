@@ -10,16 +10,19 @@ import {
     ListItemButton,
     ListItemText,
 } from '@mui/material';
+import "./Navbar.css";
 // menu
 import DrawerItem from './DrawerItem';
 // rotas
 import { Link } from 'react-router-dom';
-
+import img from "../assets/tasksp.png";
+import { Height } from '@mui/icons-material';
 
 // personalizacao
 const StyledToolbar = styled(Toolbar) ({
     display: 'flex',
     justifyContent: 'space-between',
+    fontSize:1
 });
 
 const ListMenu = styled(List)(({ theme }) => ({
@@ -29,7 +32,6 @@ const ListMenu = styled(List)(({ theme }) => ({
     },
 }));
 
-//rotas
 const itemList = [
     {
       text: "Home",
@@ -42,6 +44,10 @@ const itemList = [
     {
         text: "Contact",
         to: "/contact"
+    },
+    {
+        text: "Login",
+        to: "/login",
     }
 ];
 
@@ -53,18 +59,12 @@ const Navbar = () => {
         component="nav" 
         position="sticky"
         sx={{ 
-            backgroundColor: '#0085FF', 
+            backgroundColor: '#744AE2', 
         }}
         elevation={0}
         >
             <StyledToolbar>
-                <Typography
-                variant="h6"
-                component="h2"
-
-                >
-                    HBSales
-                </Typography>
+                <img src={img} style={{height:30}} />
                 <Box sx={{display: { xs: 'block', sm: 'none' } }}>
                     <DrawerItem /> 
                 </Box>
@@ -72,13 +72,12 @@ const Navbar = () => {
                     {itemList.map( ( item ) => {
                         const { text } = item;
                         return(
-                            <ListItem key={text}>
+                            <ListItem key={text}> 
                                 <ListItemButton component={Link} to={item.to}
                                 sx={{
                                     color: '#fff',
                                     "&:hover": {
-                                        backgroundColor: 'transparent',
-                                        color: '#1e2a5a',
+                                        border: '1px solid white',
                                     }
                                 }}
                                 >

@@ -11,7 +11,7 @@
   }
   .user__info > .title {
     font-size: 14px;
-    color: rgb(68, 156, 211);
+    color: #5f5f5f;
     font-weight: 500;
     text-transform: capitalize;
     align-self: flex-start;
@@ -19,12 +19,14 @@
   .user__info > .subtitle {
     font-size: 12px;
     line-height: 12px;
-    color: rgb(129, 159, 179);
+    color: rgb(167, 167, 167);
     font-weight: 400;
     text-transform: capitalize;
   }
   .overlay__userinfo {
+    outline: none;
     position: absolute;
+    border: 0px;
     top: 0;
     left: 0;
     width: 100%;
@@ -35,3 +37,7 @@
   .btnuser{
     height: 60px;
   }
+  .icon-holder{
+    color: white;
+  }
+ 

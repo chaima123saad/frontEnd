@@ -1,0 +1,92 @@
+.datatable {
+  height: 600px;
+}
+
+.datatable .datatableTitle {
+  width: 100%;
+  font-size: 24px;
+  color: rgb(54, 54, 54);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 25px;
+  font-family: 'Rubik', sans-serif;
+}
+
+.datatable .datatableTitle .link {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+
+}
+
+.datatable .cellWithImg {
+  display: flex;
+  align-items: center;
+}
+
+.datatable .cellWithImg .cellImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.datatable .cellWithStatus {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.datatable .cellWithStatus.active {
+  background-color: rgba(0, 128, 0, 0.05);
+  color: green;
+}
+
+.datatable .cellWithStatus.pending {
+  background-color: rgba(255, 217, 0, 0.05);
+  color: goldenrod;
+}
+
+.datatable .cellWithStatus.passive {
+  background-color: rgba(255, 0, 0, 0.05);
+  color: crimson;
+}
+
+.datatable .cellAction {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.datatable .cellAction .viewButton {
+  padding: 2px 12px;
+  border-radius: 5px;
+  color: white;
+  background-color: #fe6f8d;
+  cursor: pointer;
+}
+.datatable .cellAction .membersButton {
+  padding: 2px 12px;
+  border-radius: 5px;
+  color: white;
+  background-color: #fa8d52;
+  cursor: pointer;
+}
+
+.datatable .cellAction .deleteButton {
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: #feb637;
+  cursor: pointer;
+}

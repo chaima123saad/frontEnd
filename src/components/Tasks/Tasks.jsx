@@ -1,36 +1,101 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { RightCircleOutlined, ClockCircleOutlined, BarsOutlined } from "@ant-design/icons"; 
-import { Progress, Avatar, Tooltip } from 'antd';
+import { RightCircleOutlined, ClockCircleOutlined, BarsOutlined } from "@ant-design/icons";
 import "./Tasks.css";
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, message, Space } from 'antd';
+import { Dropdown, message, Space,Button, Modal,Progress } from 'antd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useParams } from 'react-router-dom';
+import img from "./checklist.png";
+import { Todo } from "./subtasks/ToDo";
+import { TodoForm } from "./subtasks/ToDoForm";
+import { EditTodo } from "./subtasks/EditToDo";
+
 const Card = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [tasksToDo, setTasksToDo] = useState([]);
   const [tasksInProgress, setTasksInProgress] = useState([]);
   const [tasksDone, setTasksDone] = useState([]);
+  const [todos, setTodos] = useState([]);
 
+  
 
+  const fetchTodos = async () => {
+    try {
+      const taskId = localStorage.getItem('taskId'); 
+      console.log("@@@@@@@@@",taskId);
+      const response = await axios.get(`http://localhost:2000/subtasks/${taskId}`);
+      setTodos(response.data.subTask);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const deleteTodo = async (id) => {
+    try {
+      await axios.delete(`http://localhost:2000/subtasks/${id}`);
+      setTodos(todos.filter((todo) => todo._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleComplete = async (id) => {
+    try {
+      const updatedTodos = todos.map((todo) =>
+        todo._id === id ? { ...todo, completed: !todo.completed } : todo
+      );
+      setTodos(updatedTodos);
+      await axios.put(`http://localhost:2000/subtasks/${id}`, {
+        completed: updatedTodos.find((todo) => todo._id === id).completed,
+      });
+      fetchTodos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo._id === id ? { ...todo, isEditing: !todo.isEditing } : todo
+      )
+    );
+  };
+
+  const editTask = async (task, id) => {
+    try {
+      const updatedTodos = todos.map((todo) =>
+        todo._id === id ? { ...todo, task, isEditing: false } : todo
+      );
+      setTodos(updatedTodos);
+      await axios.put(`http://localhost:2000/subtasks/${id}`, { task });
+      fetchTodos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+const {id} =useParams();
   useEffect(() => {
-    axios.get('http://localhost:2000/projects/644647eabd128a74b6428f2a/tasks')
+    axios.get(`http://localhost:2000/tasks/${id}`)
       .then(response => {
-        const inProgressTasks = response.data.filter(task => task.status === 'inProgress');
+        const inProgressTasks = response.data.tasks.filter(task => task.status === 'inProgress');
         setTasksInProgress(inProgressTasks);
-        const toDoTasks = response.data.filter(task => task.status === 'toDo');
+        const toDoTasks = response.data.tasks.filter(task => task.status === 'toDo');
         setTasksToDo(toDoTasks);
-        const doneTasks = response.data.filter(task => task.status === 'completed');
-        setTasksDone(doneTasks);     
+        const doneTasks = response.data.tasks.filter(task => task.status === 'completed');
+        setTasksDone(doneTasks);
       })
       .catch(error => {
         console.log(error);
       });
   }, []);
-  
-  
+
   const onClick = ({ key }) => {
     message.info(`Click on project   ${key}`);
   };
+
   const items = [
     {
       label: '1st menu item',
@@ -45,102 +110,297 @@ const Card = () => {
       key: '3',
     },
   ];
+  const updateTaskStatus = (taskId, newStatus) => {
+    axios
+      .put(`http://localhost:2000/tasks/${taskId}`, { status: newStatus })
+      .then(response => {
+        const updatedTask = response.data;
+        if (newStatus === 'toDo') {
+          setTasksToDo(tasks => tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+        } else if (newStatus === 'inProgress') {
+          setTasksInProgress(tasks => tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+        } else if (newStatus === 'completed') {
+          setTasksDone(tasks => tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const onDragEnd = result => {
+    if (!result.destination) {
+      return;
+    }
+
+    const { source, destination } = result;
+
+    if (source.droppableId === destination.droppableId) {
+      const columnTasks =
+        source.droppableId === 'col-task'
+          ? tasksToDo
+          : source.droppableId === 'tasksInProgress'
+          ? tasksInProgress
+          : tasksDone;
+
+      const updatedTasks = Array.from(columnTasks);
+      const movedTask = updatedTasks[source.index];
+      updatedTasks.splice(source.index, 1);
+      updatedTasks.splice(destination.index, 0, movedTask);
+
+      if (source.droppableId === 'col-task') {
+        setTasksToDo(updatedTasks);
+      } else if (source.droppableId === 'tasksInProgress') {
+        setTasksInProgress(updatedTasks);
+      } else if (source.droppableId === 'tasksDone') {
+        setTasksDone(updatedTasks);
+      }
+    } else {
+      const sourceTasks =
+        source.droppableId === 'col-task'
+          ? tasksToDo
+          : source.droppableId === 'tasksInProgress'
+          ? tasksInProgress
+          : tasksDone;
+
+      const destTasks =
+        destination.droppableId === 'col-task'
+          ? tasksToDo
+          : destination.droppableId === 'tasksInProgress'
+          ? tasksInProgress
+          : tasksDone;
+
+      const movedTask = sourceTasks[source.index];
+      sourceTasks.splice(source.index, 1);
+      destTasks.splice(destination.index, 0, movedTask);
+
+      if (source.droppableId === 'col-task') {
+        setTasksToDo(sourceTasks);
+        updateTaskStatus(movedTask.id, 'toDo');
+      } else if (source.droppableId === 'tasksInProgress') {
+        setTasksInProgress(sourceTasks);
+        updateTaskStatus(movedTask.id, 'inProgress');
+      } else if (source.droppableId === 'tasksDone') {
+        setTasksDone(sourceTasks);
+        updateTaskStatus(movedTask.id, 'completed');
+      }
+
+      if (destination.droppableId === 'col-task') {
+        setTasksToDo(destTasks);
+        updateTaskStatus(movedTask.id, 'toDo');
+      } else if (destination.droppableId === 'tasksInProgress') {
+        setTasksInProgress(destTasks);
+        updateTaskStatus(movedTask.id, 'inProgress');
+      } else if (destination.droppableId === 'tasksDone') {
+        setTasksDone(destTasks);
+        updateTaskStatus(movedTask.id, 'completed');
+      }
+    }
+  };
+  const handleOpenModal = (taskId) => {
+    localStorage.setItem('taskId', taskId);
+    setOpen(true);
+    console.log("####",taskId);
+  };
+  
+  const handleCloseModal = () => {
+    localStorage.removeItem('taskId');
+    setOpen(false);
+    console.log("####_viiiide");
+
+  }; 
+
+  useEffect(() => {
+    if(open){
+      fetchTodos();
+    }
+  }, [open]);
 
   return (
     <div>
       <div className='header_task'>
-      <div className='titleTask'>Tasks</div>
-      <Dropdown
-    menu={{
-      items,
-      onClick,
-    }}
-    className='dropDown'
-  >
-    <a onClick={(e) => e.preventDefault()}>
-      <Space>
-        Choose a project
-        <DownOutlined />
-      </Space>
-    </a>
-  </Dropdown></div>
-      <div className='content'>
-      <div className='Content_task'>
-        <div className='col-task'>
-          <span className='task_list'>To do</span>
-          <span className='row-number'>{tasksToDo.length}</span>
-          {tasksToDo.map(task => (
-            <div key={task.id} className="taskcard">
-              <div className="card-content-task">
-              <div className={`priority_${task.priority}`}>{task.priority}</div>
-                <p className="card-description-task">{task.name}</p>
-                <p className="card-desc">{task.description}</p>
-                <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
-                <div className="card-footer-task">
-                  <div className='buttons'>
-                   
-                  </div>
-                  <div style={{marginTop:7}}>
-                    <ClockCircleOutlined className='icontask'/>
-                    &nbsp;
-                    <span>6d</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-    <div className='col-task'>
-        <span className='task_list'>In Progress</span>
-        <span className='row-number-2'>{tasksInProgress.length}</span>
-        {tasksInProgress.map(task => (
-          <div key={task.id} className="taskcard">
-            <div className="card-content-task">
-            <div className={`priority_${task.priority}`}>{task.priority}</div>
-              <p className="card-description-task">{task.name}</p>
-              <p className="card-desc">{task.description}</p>
-              <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
-              <div className="card-footer-task">
-                <div className='buttons'>
-                  
-            
-                </div>
-                <div style={{marginTop:7}}>
-                  <ClockCircleOutlined className='icontask'/>
-                  &nbsp;
-                  <span>6d</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+        <div className='titleTaskInterface'>Tasks</div>
+        <Dropdown
+          menu={{
+            items,
+            onClick,
+          }}
+          className='dropDown'
+        >
+          <a onClick={(e) => e.preventDefault()}>
+            <Space style={{width:150}}>
+              Choose a project
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
       </div>
+      <div className='content'>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className='Content_task'>
 
-      <div className='col-task'>
-          <span className='task_list'>Done</span>
-          <span className='row-number-3'>{tasksDone.length}</span>
-          {tasksDone.map(task => (
-            <div key={task.id} className="taskcard">
-              <div className="card-content-task">
-              <div className={`priority_${task.priority}`}>{task.priority}</div>
-                <p className="card-description-task">{task.name}</p>
-                <p className="card-desc">{task.description}</p>
-                <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
-                <div className="card-footer-task">
-                  <div style={{marginTop:7}}>
-                    <ClockCircleOutlined className='icontask'/>
-                    &nbsp;
-                    <span>6d</span>
+            <Droppable droppableId='col-task'>
+              {(provided) => (
+                <div
+                  className='tasktaskContainer'
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <div className='col-task'>
+                  <span className='task_list'>To do</span>
+                <span className='row-number'>{tasksToDo.length}</span>
+                    {tasksToDo.map((task, index) => (
+                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                        {(provided) => (
+                          <div
+                            className='taskcard'
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className="card-content-task">
+                            <div className={`priority_${task.priority}`}>{task.priority}</div>
+                                <p className="card-description-task">{task.name}</p>
+                                <p className="card-desc">{task.description}</p>
+                                <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
+                                <div className="card-footer-task">
+                                <div className='buttons' onClick={() => handleOpenModal(task._id)}>
+                                <img src={img} style={{height:25,cursor:"pointer"}}/>
+                                </div>
+                                <div style={{marginTop:7}}>
+                                    <ClockCircleOutlined className='icontask'/>
+                                    &nbsp;
+                                    <span>6d</span>
+                                </div>
+                                </div>
+                            </div>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              )}
+            </Droppable>
 
-    </div> 
+            <Droppable droppableId='tasksInProgress'>
+              {(provided) => (
+                <div
+                  className='taskContainer'
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <div className='col-task'>
+                  <span className='task_list'>In Progress</span>
+                  <span className='row-number-2'>{tasksInProgress.length}</span>
+                    {tasksInProgress.map((task, index) => (
+                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                        {(provided) => (
+                          <div
+                            className='taskcard'
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className="card-content-task">
+                        <div className={`priority_${task.priority}`}>{task.priority}</div>
+                        <p className="card-description-task">{task.name}</p>
+                        <p className="card-desc">{task.description}</p>
+                        <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
+                        <div className="card-footer-task">
+                        <div className='buttons' onClick={() => handleOpenModal(task._id)}>
+                                <img src={img} style={{height:25,cursor:"pointer"}}/>
+                                </div>
+                            <div style={{marginTop:7}}>
+                            <ClockCircleOutlined className='icontask'/>
+                            &nbsp;
+                            <span>6d</span>
+                            </div>
+                        </div>
+                        </div>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                </div>
+              )}
+            </Droppable>
+
+            <Droppable droppableId='tasksDone'>
+              {(provided) => (
+                <div
+                  className='taskContainer'
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  <div className='col-task'>
+                  <span className='task_list'>Done</span>
+                  <span className='row-number-3'>{tasksDone.length}</span>
+                    {tasksDone.map((task, index) => (
+                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                        {(provided) => (
+                          <div
+                            className='taskcard'
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className="card-content-task">
+                            <div className={`priority_${task.priority}`}>{task.priority}</div>
+                                <p className="card-description-task">{task.name}</p>
+                                <p className="card-desc">{task.description}</p>
+                                <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
+                                <div className="card-footer-task">
+                                <div className='buttons' onClick={() => handleOpenModal(task._id)}>
+                                <img src={img} style={{height:25,cursor:"pointer"}}/>
+                                </div>
+                                <div style={{marginTop:7}}>
+                                    <ClockCircleOutlined className='icontask'/>
+                                    &nbsp;
+                                    <span>6d</span>
+                                </div>
+                                </div>
+                            </div>    
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                </div>
+              )}
+            </Droppable>
+          </div>
+        </DragDropContext>
+      </div>
+      <Modal
+        title=""
+        centered
+        open={open}
+        onCancel={handleCloseModal}
+        width={800}
+        footer={null}
+      >
+        <div className="TodoWrapper">
+      <h1 className="h1">Get Things Done!</h1>
+      <TodoForm fetchTodos={fetchTodos}/>
+      {todos.map((todo) =>
+        todo.isEditing ? (
+          <EditTodo editTodo={editTask} task={todo} key={todo.id} />
+        ) : (
+          <Todo
+            key={todo.id}
+            task={todo}
+            deleteTodo={deleteTodo}
+            editTodo={editTodo}
+            toggleComplete={toggleComplete}
+          />
+        )
+      )}
     </div>
+      </Modal>
     </div>
   );
 };

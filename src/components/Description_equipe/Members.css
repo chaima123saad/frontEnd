@@ -1,0 +1,44 @@
+.TeamMembers{
+    width: 100%;
+    font-size: 24px;
+    color: rgb(54, 54, 54);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 25px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.Button2{
+    border: none;
+    background-color: #ffffff3a;
+    color: #5b5b5b;
+    border: 1px solid #8f8f8f66;
+    padding: 7px 15px 7px 15px ;
+
+    border-radius: 5px;
+    cursor: pointer;
+    transition: ease 0.3s;
+    }
+    .Button2:hover{
+        background-color: #744ae2;
+        color: #ffffff;
+    
+        }
+    :where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-primary{
+        background-color: #744ae2;
+    }
+    :where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-primary:not(:disabled):hover{
+        background-color: #1b1340;
+    }
+    :where(.css-dev-only-do-not-override-1e3x2xa).ant-btn-default:not(:disabled):hover {
+        color: #744ae2;
+        border-color: #744ae2;
+    }
+
+   
+    :where(.css-dev-only-do-not-override-1e3x2xa).ant-list {
+        padding-left: 20px;
+        padding-right: 20px;
+    }

@@ -1,0 +1,90 @@
+form {
+ 
+    padding: 20px;
+    border-radius: 5px;
+    padding-top: 0.5rem;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .inputEmp,
+  .selectEmp,.selectTeam{
+    width: 19.5rem;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  .large{
+    width: 30rem;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; 
+  }
+  td{
+    padding-left: 0;
+    padding-right: 1rem;
+  }
+  
+  .inputEmp:focus,
+  .selectEmp:focus,.selectTeam:focus{
+  outline: none;
+  border: 2px solid #744ae2;
+  
+  }
+  
+  .selectTeam {
+    width: 99%;
+  }
+  
+  select option:first-child {
+    display: none;
+  }
+  
+  .error {
+    color: red;
+  margin-top: -18px;
+  padding-bottom: 8px;
+  }
+  .flex{
+  display: flex;
+  flex-direction: column;
+  }
+  
+  .addProject{
+    width: 99%;
+    background-color:  #7b54dded;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: ease 0.5s;
+  }
+  .addProject:hover{
+    background-color: #422883ed;
+  }
+  .pop {
+    position: fixed;
+    top: 5%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+  }
+  
+  

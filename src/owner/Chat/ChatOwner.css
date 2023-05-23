@@ -1,0 +1,116 @@
+.chat-input, .chat-button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: -40px;
+  }
+  
+ .chat-button {
+    background-color: #744ae2;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .message-status {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+  }
+
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 30px;
+  }
+  
+  .chat-input {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+  }
+
+  .chat-input:focus{
+  outline: none;
+  border: #744ae2 solid 2px;
+  }
+  
+  .chat-messages-container {
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+ 
+  .chat-message.outgoing {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+  
+  .chat-message .chat-bubble {
+    border-radius: 6px;
+    word-wrap: break-word;
+    max-width: 31rem;
+    padding: 15px;
+  }
+  
+  .chat-bubble {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .chat-message.incoming .chat-bubble {
+    background-color: #e6e9ed; 
+    color: #000; 
+  }
+  
+  .chat-message.outgoing .chat-bubble {
+    background-color: #6640c5; 
+    color: #fff;     
+  }
+  
+  .chat-message.sender .chat-bubble {
+    background-color: #e6e9ed;
+    color: #000;
+  }
+  
+  .speciality{
+    background-color: #D7DBFF;
+    color: #4A4A4A;
+    padding: 0.2rem;
+    text-align: center;
+    border-radius: 10px;
+    width: 150px;
+    height: 30px !important; 
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .sender-info{
+    display: flex;
+    align-self: flex-end;
+  }
+
+ .titleChat{
+  width: 100%;
+    font-size: 24px;
+    color: rgb(54, 54, 54);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 25px;
+    font-family: 'Rubik', sans-serif;
+ }

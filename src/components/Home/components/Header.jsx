@@ -2,7 +2,9 @@ import React from 'react'
 import { Box, Button, styled, Typography } from "@mui/material";
 import { Link } from 'react-router-dom';
 import "./Header.css";
-import headerImg from '../assets/3685115.png';
+import headerImg from '../assets/wave.png';
+import Img from '../assets/homee.png';
+
 
 const Header = () => {
 
@@ -35,13 +37,20 @@ const Header = () => {
 
 
   return  (
-        <CustomBox component='header'>
-            {/*  Box text  */}
+        <CustomBox component='header' className='headerHome'>
+            <Box>
+                <img
+                src={headerImg}
+                alt="headerImg"
+                style={{ 
+                    width: "100%", 
+                    marginTop: -200,
+                }}
+                />
+            </Box>
             <BoxText 
-            component='section'
-            >
-                <Typography
-                >
+            component='section' className='typographieSection'>
+                <Typography>
             <div className='hero__content'>
             <h2 className="hero__title">
             Effortlessly Manage  <br/><span className="title_">Your</span> Busy  <span className="title_">Workday</span>
@@ -53,34 +62,33 @@ const Header = () => {
                 keep your project under control.
               </p>
             </div>
+            
             <div className="login_">
-              <button className="btn_">S'identifier</button>
+            <Link
+              to={`/login`}
+              style={{ textDecoration: "none" }}
+            >
+            <button className="btn1">Log In</button>
+            </Link>
+              
             </div>
                 </Typography>
 
-            </BoxText>
-
-            <Box sx={theme => ({
-                [theme.breakpoints.down('md')]:{
-                    flex: '1',
-                    paddingTop: '10px',
-                    alignSelf: 'center',
-                },
-                [theme.breakpoints.up('md')]:{
-                    flex: '2',
-                    alignSelf: 'flex-end',
-                },
-            })}
-            >
+                <Box>
                 <img
-                src={headerImg}
+                src={Img}
                 alt="headerImg"
                 style={{ 
-                    width: "80%", 
-                    marginTop: -50,
+                    width: "100%", 
+                    marginTop:-80,
+                    marginLeft:-80  
                 }}
                 />
             </Box>
+
+            </BoxText>
+
+           
 
         </CustomBox>
     )

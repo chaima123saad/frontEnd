@@ -1,18 +1,26 @@
-.titleTask{
+.titleTaskInterface{
+  width: 100%;
+    font-size: 24px;
+    color: rgb(54, 54, 54);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 25px;
     font-family: 'Rubik', sans-serif;
-    margin-top: 20px;
 }
 
 .Content_task{
     display:flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 1.5rem;
   }
-
+.content{
+  padding-left: 20px;
+}
 .taskcard{
     background-color: #fff;
-    min-width: 20rem;
+    min-width: 15rem;
     height: max-content;
     display: flex;
     flex-direction: column;
@@ -117,18 +125,13 @@
     
   }
 
- .button_color1{
-    width: 10px;
-    height: 10px;
-    background-color: green;
-  } 
   .col-task{
     background-color: #e6e6e689;
     border-radius: 10px;
     padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 24rem;
+    width: 21.5rem;
     height: max-content;
 
     
@@ -187,9 +190,94 @@ font-size: 13px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding-top:40px;
+  padding-left: 20px;
 }
 .dropDown{
   font-size: 17px;
     font-family: 'Rubik', sans-serif;
     margin-top: 20px;
 }
+
+
+
+
+
+
+.bodyModal {
+  background: #8758ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+
+.h1 {
+  color: #1A1A40;
+  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+}
+
+.TodoWrapper {
+  background: #ffffff;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.TodoForm {
+  width: 100%;
+  padding: 0;
+}
+
+.todo-input {
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  border-radius: 5px 0 0 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 620px;
+  height: 45px;
+  color: #6c6c6cae;
+}
+
+.todo-input::placeholder {
+  color: #4b4b4ba2;
+}
+
+.todo-btn {
+  background: #8758ff;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 0.55rem;
+  cursor: pointer;
+  height: 45px;
+  width: 100px;
+}
+
+.Todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8758ff;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.fa-trash {
+  margin-left: 0.75rem;
+}
+
+.completed {
+  color: #c5aeff;
+  text-decoration: line-through;
+}
+ 

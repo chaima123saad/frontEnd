@@ -73,16 +73,16 @@
   .datatable .cellAction .viewButton {
     padding: 2px 5px;
     border-radius: 5px;
-    color: darkblue;
-    border: 1px dotted rgba(0, 0, 139, 0.596);
+    color: white;
+    background-color: #fe6f8d;
     cursor: pointer;
   }
   
   .datatable .cellAction .deleteButton {
     padding: 2px 5px;
     border-radius: 5px;
-    color: crimson;
-    border: 1px dotted rgba(220, 20, 60, 0.6);
+    color: white;
+    background-color: #feb637;
     cursor: pointer;
   }
   

@@ -1,13 +1,24 @@
 ul.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-dark.css-dev-only-do-not-override-1e3x2xa{
-    background-color: white !important;
+    background: #ffffff;
+    padding-top: 1rem;
 }
 aside.ant-layout-sider.ant-layout-sider-dark{
-    background-color: white !important;
-    border-right: 1px solid rgb(192, 187, 187);
+    background-color: #ffffff;
+    border-right:solid 1px #cacaca;
 }
 :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark, :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark>.ant-menu{
-    color: gray !important;
+    color: #5f5f5f !important;
 }
 :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark, :where(.mencss-dev-only-do-not-override-1e3x2xa).ant-menu-dark>.ant-u{
-    background-color: white;
+    background: #ffffff;
+}
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+    background-color: #ffffff;
+}
+:where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1e3x2xa).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+    background-color: #744AE2;
+}
+.head__{
+    background-color: #ffffff;
+    border-bottom:solid 1px #cacaca;
 }

@@ -1,0 +1,173 @@
+.profilInput {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .allProfil{
+    font-family: 'Rubik', sans-serif;
+  
+  }
+  
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .bt1 {
+    display: inline-block;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    background-color: #744ae2;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    padding-left:40px;
+    padding-right: 40px;
+    margin-bottom: 10px;
+    font-size: 17px;
+    
+  } 
+  
+  .b2 {
+    background-color: #ffffff;
+    outline: none;
+    color: #744ae2;
+    border: solid 1px #744ae2;
+    width: 100%;
+    font-size: 17px;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: ease 0.5s;
+  }
+  
+  .bouttt {
+    background-color: #ffffff;
+    width: 480px;
+    max-width: 480px;
+    margin-top: 10px;
+    color: #744ae2;
+    border: 1px solid #b59ff0;
+    border-radius: 10px;
+    margin-left: -10px;
+    height: 40px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: ease 0.3s;
+  }
+  .bouttt:hover {
+    background-color: #744ae2;
+    color: rgb(240, 234, 255);
+    border: 1px solid #744ae2;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #7b7979;
+  }
+  
+  .profilInput::placeholder {
+    color: #C0C0C0;
+  }
+  
+  .profile-pic {
+    border-radius: 50%;
+    height: 125px;
+    margin-top: 0%;
+  }
+  
+  .image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .containerAll{
+    margin-left:13% ;
+  }
+  .profilInput{
+  width: 300px;
+  }
+  
+  .image2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .buttons_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 27%;
+  }
+  
+  
+  
+  .profilInput {
+    width: 100%;
+    height: 40px;
+  }
+  
+  .compt {
+    height: 70px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    input[type="submit"],.bt1,.b2,.bouttt
+    input {
+      width: 80%;
+    }
+    
+  
+  
+    
+    .buttons_container {
+      margin-left: 0;
+      display: flex;
+      align-items:flex-end;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) {
+    .profilInput {
+      width: 480px;
+      max-width: 500px;
+    }
+  }
+  .form1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 500px
+  }
+  .tp1{
+    color: #C0C0C0;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    
+  }
+  
+  .th1{
+    color: #7b7979;
+    font-size: 20px;
+    margin-right: 10%;
+    padding-bottom: 20px;
+  
+  }

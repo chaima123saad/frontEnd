@@ -1,16 +1,17 @@
 import "./Table.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { Drawer,Modal} from 'antd';
+import Form from "./Form";
 const Datatable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [teams, setTeams] = useState([]);
-
+const {id}=useParams();
   useEffect(() => {
     Promise.all([
       axios.get('http://localhost:2000/users/'),
@@ -25,36 +26,24 @@ const Datatable = () => {
       console.log(error);
       setLoading(false);
     });
-  }, []);
+  }, [teams,data]);
   
   function getRowId(row) {
     return row._id;
-  }
-  const handleDelete = (userId) => {
-    console.log(userId);
-    axios.delete(`http://localhost:2000/users/deleteUser/${userId}`)
-      .then(response => {
-        setData(data.filter(user => user._id !== userId));
-        setSelectedRowKeys(selectedRowKeys.filter(key => key !== userId));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-  
+  }  
   
   const userColumns = [
     { field: "_id", headerName: "ID", width: 70 },
     {
       field: "profileImage",
       headerName: "User",
-      width: 230,
+      width: 200,
       renderCell: (params) => {
-        const { profileImage, name } = params.row;
+        const { profileImage, name,lastName } = params.row;
         return (
           <div className="cellWithImg">
             <img className="cellImg" src={profileImage} alt="avatar" />
-            {name}
+            {name}&nbsp;{lastName}
           </div>
         );
       },
@@ -75,18 +64,13 @@ const Datatable = () => {
       width: 160,
       renderCell: (params) => {
         const team = teams.find((t) => t._id === params.row.team);
-        return (
-          <div className={`cellWithStatus ${team.name}`}>
-            {team.name}
-          </div>
-        );
+        return <div>{team ? team.name : ""}</div>;
       },
     },
   ];
   
   
   const actionColumn = [
-    // your existing columns
     {
       field: "action",
       headerName: "Action",
@@ -95,10 +79,10 @@ const Datatable = () => {
         return (
           <div className="cellAction">
             <Link
-              to={`/users/${params.row._id}`}
+              to={`/manager/${id}/users/${params.row._id}`}
               style={{ textDecoration: "none" }}
             >
-              <div className="viewButton">View</div>
+              <div className="viewButton">Edit</div>
             </Link>
             <div
               className="deleteButton"
@@ -111,15 +95,47 @@ const Datatable = () => {
       },
     },
   ];
-  
+  const [open, setOpen] = useState(false);
+  const [size, setSize] = useState();
+
+  const showLargeDrawer = () => {
+    setSize('large');
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+  const handleDelete = (selectedUser) => {
+    setSelectedRowKeys([selectedUser]);
+    setSelectedUser(selectedUser);
+    setShowConfirmation(true);
+  };
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const confirmDelete = () => {
+    axios
+      .delete(`http://localhost:2000/users/deleteUser/${selectedUser}`)
+      .then((response) => {
+        setData(data.filter((user) => user._id !== selectedUser));
+        setSelectedRowKeys(selectedRowKeys.filter((key) => key !== selectedUser));
+        setShowConfirmation(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const cancelDelete = () => {
+    setSelectedRowKeys([]);
+    setSelectedUser(null);
+    setShowConfirmation(false);
+  };
 
   return (
     <div className="datatable">
       <div className="datatableTitle">
         Employee
-        <Link to="/users/new" className="link">
-          Add New Employee
-        </Link>
+        <button className="addEmp" onClick={showLargeDrawer}> Add Employee</button>
       </div>
       <DataGrid
         className="datagrid"
@@ -130,6 +146,25 @@ const Datatable = () => {
         rowsPerPageOptions={[7]}
         checkboxSelection
       />
+          <Drawer
+        title={`Add Employee`}
+        placement="right"
+        size={size}
+        onClose={onClose}
+        open={open}
+
+      >
+
+        <Form/>
+      </Drawer>
+      <Modal
+          title="Delete User"
+          visible={showConfirmation}
+          onOk={confirmDelete}
+          onCancel={cancelDelete}
+        >
+          <p>Are you sure you want to delete this User?</p>
+        </Modal>
     </div>
   );
 };

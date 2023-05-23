@@ -1,19 +1,19 @@
 import "../../styles/project.css";
-
-
+import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
-// import Header from "./header";
 
 function Manager() {
+  
   return (
     <>
-    <Sidebar />
-     
-     </>
+      <Sidebar/>
+      
+    </>
   );
 }
 
 export default Manager;
+
 
 
 

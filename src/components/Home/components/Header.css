@@ -7,6 +7,7 @@
   .hero__content {
     font-family: 'Archivo', sans-serif;
     width: 40rem;
+    margin-left: 5rem;
   }
   .text1{
     font-family: 'Inter', sans-serif;
@@ -20,28 +21,34 @@ min-height: 0vh;
     position: relative;
   }
   .title_{
-    color: #0085FF;
+    color: #744AE2;
   }
-  .login_ .btn_{
+   .btn1{
     outline: none;
     border: none;
-    background-color: #0085FF;
+    background-color: #754ae2;
     color: white;
     width: 30%;
-    border-radius: 15px;
     padding: 10px;
     margin-top: 20px;
     font-size: 17px;
     cursor: pointer;
-    transition: ease 0.5s;
+    transition: ease 0.3s;
+    margin-left: 5rem;
+
   }
-  .login_ .btn_:hover{
-    background-color: #ffffff;
-    color: #0085FF;
-    border: solid #0085FF 2px;
+  .btn1:hover{
+background-color: #b59ff0;
   }
 
   .hero__title{
   font-size: 2.5rem;
   }
-  
+  .headerHome{
+    display: flex;
+    flex-direction: column;
+  }
+  .typographieSection{
+    margin-top: -50px;
+    display: flex;
+  }
