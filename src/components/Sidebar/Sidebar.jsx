@@ -80,7 +80,7 @@ const Sidebar = () => {
       key: "nav7",
       icon: <FolderOpenOutlined />,
       label: "Explore archive",
-      route: `/manager/${id}/nav7`,
+      route: `/manager/${id}/archive`,
     },
     {
       key: "nav8",

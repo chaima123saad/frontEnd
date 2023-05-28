@@ -196,7 +196,14 @@ font-size: 13px;
 .dropDown{
   font-size: 17px;
     font-family: 'Rubik', sans-serif;
-    margin-top: 20px;
+    border: 1px solid rgb(161, 161, 161);
+    border-radius: 10px;
+    padding: 10px;
+    padding-left: 40px;
+}
+.dropDown:hover{
+background-color: #754ae2bc;
+color: white;
 }
 
 

@@ -6,7 +6,7 @@ export const EditTodo = ({ editTodo, task }) => {
   const taskId = localStorage.getItem('taskId');
   const [todos, setTodos] = useState([]);
 
-  const fetchTodos = async ({ fetchTodos }) => {
+  const fetchTodos = async () => {
     try {
       const response = await axios.get(`http://localhost:2000/subtasks/${taskId}`);
       setTodos(response.data.subTask);

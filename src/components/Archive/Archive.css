@@ -3,13 +3,31 @@
     font-size: 24px;
     color: rgb(54, 54, 54);
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     font-size: 25px;
     font-family: 'Rubik', sans-serif;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 .datatable {
     height: 600px;
     padding: 20px;
   }
+
+  .box{
+    width: 48%;
+    height: 5rem;
+    border: 1px solid rgb(167, 167, 167);
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(79, 79, 79);
+    cursor: pointer;
+    align-items: center;
+    transition: ease 0.3s;
+  }
+  .box:hover{
+    background-color: rgba(225, 225, 225, 0.242);
+    color: rgb(79, 79, 79);
+
+  }
+ 

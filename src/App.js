@@ -19,7 +19,13 @@ import Contact from './components/Home/pages/Contact';
 import Pro from './components/DataGrid/Pro';
 import Supervise from './owner/supervise/Supervise';
 import Chat from './owner/Chat/ChatOwner';
-import MyProjectOwner from './owner/MyProject/MyProjectOwner';
+import ArchiveProject from './components/Archive/ArchiveProject';
+import ArchiveEmployee from './components/Archive/ArchiveEmployee';
+import ArchiveTeam from './components/Archive/ArchiveTeam';
+import ArchiveChat from './components/Archive/ArchiveChat';
+
+
+
 function App() {
  
   return (
@@ -51,13 +57,22 @@ function App() {
             </Route>
             <Route path="/manager/:id/chat" element={<Chat/>} />
             <Route path="/manager/:id/nav6" element={<Tasks />} />
-            <Route path="/manager/:id/nav7" element={<Archive/>} />
+            <Route path="/manager/:id/archive"  />
+
+            <Route path="/manager/:id/archive">
+              <Route index element={<Archive/>} />
+              <Route path="projects" element={<ArchiveProject/>} />
+              <Route path="employee" element={<ArchiveEmployee/>} />
+              <Route path="team" element={<ArchiveTeam/>} />
+              <Route path="chat" element={<ArchiveChat/>} />
+            </Route>
+
             <Route path="/manager/:id/nav8" element={<p>nav8</p>} />
           </Route>
           <Route path="/owner/:id" element={<Owner/>}>
           <Route path="/owner/:id/supervise" element={<Supervise />} />
           <Route path="/owner/:id/chat" element={<Chat />} />
-          <Route path="/owner/:id/myproject" element={<MyProjectOwner />} />
+          <Route path="/owner/:id/myproject" element={<MyProject />} />
           <Route path="/owner/:id/task" element={<Tasks />} />
           </Route>
         </Routes>

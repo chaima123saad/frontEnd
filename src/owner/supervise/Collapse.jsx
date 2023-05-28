@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './Collapse.css';
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm ,Result} from 'antd';
 import {FieldTimeOutlined,ContainerOutlined,ExclamationCircleOutlined,DeleteOutlined} from "@ant-design/icons";
 
 const CollapseList = () => {
@@ -129,9 +129,13 @@ const CollapseList = () => {
   };
 
   return (
-    <div>
+    <div className='content_supervise'>
+      <div className='titleSupervise'>Supervise Team Employee</div>
       {loading ? (
-        <div>Loading...</div>
+         <Result
+         status="404"
+         title="No Employee"
+       />
       ) : (
         members.map((member) => (
           <div key={member._id}>

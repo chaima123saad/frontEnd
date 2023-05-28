@@ -18,9 +18,6 @@ export const TodoForm = ({fetchTodos}) => {
       axios.post(`http://localhost:2000/subtasks/addSubTask`,subtask);
       fetchTodos();
       setValue('');
-
-      
-
     }
   };
 

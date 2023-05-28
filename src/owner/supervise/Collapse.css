@@ -8,11 +8,22 @@
     border-radius: 10px;
     margin-top: 20px;
     padding: 15px;
-    width: 70rem;
+    width: 66rem;
     text-align: left;
   }
+  .titleSupervise{
+    font-size: 25px;
+    font-family: 'Rubik', sans-serif;
+    margin-top: 20px;
+
+}
+
+.content_supervise{
+padding: 20px;
+}
+
   .grayBorder1{
-    width: 34rem;
+    width: 32rem;
     background-color: rgb(239, 239, 239);
     margin-left: -15px;
     padding-left: 40px;
@@ -22,7 +33,7 @@
     border-radius: 0 20px 20px 0;
   }
   .grayBorder2{
-    width: 32.7rem;
+    width: 30.7rem;
     background-color: rgb(239, 239, 239);
     padding-left: 40px;
     padding-top: 7px;
@@ -31,7 +42,7 @@
     border-radius: 20px 0px 0px 20px;
   }
   .grayBorder3{
-    width: 67rem;
+    width: 63rem;
     background-color: rgb(239, 239, 239);
     margin-left: -15px;
     padding-left: 40px;

@@ -2,6 +2,8 @@
     font-size: 25px;
     font-family: 'Rubik', sans-serif;
     margin-top: 20px;
+    padding-left: 20px;
+
 }
 
 .Content_project{
@@ -182,4 +184,38 @@ font-size: 13px;
 }
 .card-desc{
   padding-bottom: 15px;
+}
+
+.projectName{
+  font-size: 23px;
+  font-weight: 600;
+}
+hr{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid rgba(185, 185, 185, 0.284);
+}
+.taskContent{
+  background-color: #e7e7e747;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+.statusTask{
+  height: 30px;
+padding: 3px;
+padding-left: 10px;
+padding-right: 10px;
+  background-color: #7040f3cb;
+  border-radius: 10px;
+  color: #fff;
+}
+.class1{
+  display: flex;
+  justify-content: space-between;
+  width: 50rem;
 }

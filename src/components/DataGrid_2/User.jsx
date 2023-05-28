@@ -109,8 +109,7 @@ useEffect(() => {
         </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">Edit</span>
-          <form className
-="userUpdateForm">
+          <form className="userUpdateForm">
 <div className="userUpdateLeft">
   <div className="userUpdateItem">
     <label>First Name</label>

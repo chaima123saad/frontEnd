@@ -3,7 +3,7 @@ import axios from 'axios';
 import { RightCircleOutlined, ClockCircleOutlined, BarsOutlined } from "@ant-design/icons";
 import "./Tasks.css";
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, message, Space,Button, Modal,Progress } from 'antd';
+import { Dropdown, message, Space,Empty, Modal,Progress } from 'antd';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import img from "./checklist.png";
@@ -17,7 +17,38 @@ const Card = () => {
   const [tasksInProgress, setTasksInProgress] = useState([]);
   const [tasksDone, setTasksDone] = useState([]);
   const [todos, setTodos] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get('http://localhost:2000/projects');
+      setProjects(response.data);
+      console.log(response.data);
+      const inProgressProject = response.data.find(project => project.status === 'inProgress');
+      setSelectedProject(inProgressProject);
+      if(inProgressProject){
+        axios.get(`http://localhost:2000/tasks/user/${id}/project/${inProgressProject._id}`)
+          .then(response => {
+            const inProgressTasks = response.data.filter(task => task.status === 'inProgress');
+            setTasksInProgress(inProgressTasks);
+            const toDoTasks = response.data.filter(task => task.status === 'toDo');
+            setTasksToDo(toDoTasks);
+            const doneTasks = response.data.filter(task => task.status === 'completed');
+            setTasksDone(doneTasks);
+          })
+          .catch(error => {
+            console.log(error);
+          });}
+    } catch (error) {
+      console.log(error);
+    }
+  };
+    
   
 
   const fetchTodos = async () => {
@@ -57,12 +88,13 @@ const Card = () => {
   };
 
   const editTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo._id === id ? { ...todo, isEditing: !todo.isEditing } : todo
-      )
-    );
-  };
+  setTodos(
+    todos.map((todo) =>
+      todo._id === id ? { ...todo, isEditing: !todo.isEditing } : { ...todo, isEditing: false }
+    )
+  );
+};
+
 
   const editTask = async (task, id) => {
     try {
@@ -77,50 +109,37 @@ const Card = () => {
     }
   };
 const {id} =useParams();
-  useEffect(() => {
-    axios.get(`http://localhost:2000/tasks/${id}`)
-      .then(response => {
-        const inProgressTasks = response.data.tasks.filter(task => task.status === 'inProgress');
-        setTasksInProgress(inProgressTasks);
-        const toDoTasks = response.data.tasks.filter(task => task.status === 'toDo');
-        setTasksToDo(toDoTasks);
-        const doneTasks = response.data.tasks.filter(task => task.status === 'completed');
-        setTasksDone(doneTasks);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
 
-  const onClick = ({ key }) => {
-    message.info(`Click on project   ${key}`);
+  const onClick = (project) => {
+    setSelectedProject(project);
+    message.info(`${project.name}`);
+
+    if(project){
+      axios.get(`http://localhost:2000/tasks/user/${id}/project/${project._id}`)
+        .then(response => {
+          const inProgressTasks = response.data.filter(task => task.status === 'inProgress');
+          setTasksInProgress(inProgressTasks);
+          const toDoTasks = response.data.filter(task => task.status === 'toDo');
+          setTasksToDo(toDoTasks);
+          const doneTasks = response.data.filter(task => task.status === 'completed');
+          setTasksDone(doneTasks);
+        })
+        .catch(error => {
+          console.log(error);
+        });}
   };
-
-  const items = [
-    {
-      label: '1st menu item',
-      key: '1',
-    },
-    {
-      label: '2nd menu item',
-      key: '2',
-    },
-    {
-      label: '3rd menu item',
-      key: '3',
-    },
-  ];
+  
   const updateTaskStatus = (taskId, newStatus) => {
     axios
       .put(`http://localhost:2000/tasks/${taskId}`, { status: newStatus })
       .then(response => {
         const updatedTask = response.data;
         if (newStatus === 'toDo') {
-          setTasksToDo(tasks => tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+          setTasksToDo(tasks => tasks.map(task => (task._id === updatedTask._id ? updatedTask : task)));
         } else if (newStatus === 'inProgress') {
-          setTasksInProgress(tasks => tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+          setTasksInProgress(tasks => tasks.map(task => (task._id === updatedTask._id ? updatedTask : task)));
         } else if (newStatus === 'completed') {
-          setTasksDone(tasks => tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+          setTasksDone(tasks => tasks.map(task => (task._id === updatedTask._id ? updatedTask : task)));
         }
       })
       .catch(error => {
@@ -175,24 +194,24 @@ const {id} =useParams();
 
       if (source.droppableId === 'col-task') {
         setTasksToDo(sourceTasks);
-        updateTaskStatus(movedTask.id, 'toDo');
+        updateTaskStatus(movedTask._id, 'toDo');
       } else if (source.droppableId === 'tasksInProgress') {
         setTasksInProgress(sourceTasks);
-        updateTaskStatus(movedTask.id, 'inProgress');
+        updateTaskStatus(movedTask._id, 'inProgress');
       } else if (source.droppableId === 'tasksDone') {
         setTasksDone(sourceTasks);
-        updateTaskStatus(movedTask.id, 'completed');
+        updateTaskStatus(movedTask._id, 'completed');
       }
 
       if (destination.droppableId === 'col-task') {
         setTasksToDo(destTasks);
-        updateTaskStatus(movedTask.id, 'toDo');
+        updateTaskStatus(movedTask._id, 'toDo');
       } else if (destination.droppableId === 'tasksInProgress') {
         setTasksInProgress(destTasks);
-        updateTaskStatus(movedTask.id, 'inProgress');
+        updateTaskStatus(movedTask._id, 'inProgress');
       } else if (destination.droppableId === 'tasksDone') {
         setTasksDone(destTasks);
-        updateTaskStatus(movedTask.id, 'completed');
+        updateTaskStatus(movedTask._id, 'completed');
       }
     }
   };
@@ -220,19 +239,22 @@ const {id} =useParams();
       <div className='header_task'>
         <div className='titleTaskInterface'>Tasks</div>
         <Dropdown
-          menu={{
-            items,
-            onClick,
-          }}
-          className='dropDown'
-        >
-          <a onClick={(e) => e.preventDefault()}>
-            <Space style={{width:150}}>
-              Choose a project
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
+  menu={{
+    items: projects.map((project) => ({
+      label: project.name,
+      key: project._id,
+      onClick: () => onClick(project),
+    })),
+  }}
+  className='dropDown'
+>
+  <a onClick={(e) => e.preventDefault()}>
+    <Space style={{ width: 150 }}>
+      Choose a project
+      <DownOutlined />
+    </Space>
+  </a>
+</Dropdown>
       </div>
       <div className='content'>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -248,8 +270,9 @@ const {id} =useParams();
                   <div className='col-task'>
                   <span className='task_list'>To do</span>
                 <span className='row-number'>{tasksToDo.length}</span>
-                    {tasksToDo.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                {tasksToDo.length > 0 ? (
+                    tasksToDo.map((task, index) => (
+                      <Draggable key={task._id} draggableId={task._id} index={index}>
                         {(provided) => (
                           <div
                             className='taskcard'
@@ -261,7 +284,7 @@ const {id} =useParams();
                             <div className={`priority_${task.priority}`}>{task.priority}</div>
                                 <p className="card-description-task">{task.name}</p>
                                 <p className="card-desc">{task.description}</p>
-                                <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
+                                <Progress className='progress' percent={task.progress} strokeColor="#744ae2" status="active" size={[290, 15]}/>
                                 <div className="card-footer-task">
                                 <div className='buttons' onClick={() => handleOpenModal(task._id)}>
                                 <img src={img} style={{height:25,cursor:"pointer"}}/>
@@ -276,7 +299,10 @@ const {id} =useParams();
                           </div>
                         )}
                       </Draggable>
-                    ))}
+                    ))
+                    ) : (
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    )}
                     {provided.placeholder}
                   </div>
                 </div>
@@ -293,8 +319,9 @@ const {id} =useParams();
                   <div className='col-task'>
                   <span className='task_list'>In Progress</span>
                   <span className='row-number-2'>{tasksInProgress.length}</span>
-                    {tasksInProgress.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {tasksInProgress.length > 0 ? (
+                    tasksInProgress.map((task, index) => (
+                      <Draggable key={task._id} draggableId={task._id} index={index}>
                         {(provided) => (
                           <div
                             className='taskcard'
@@ -306,7 +333,7 @@ const {id} =useParams();
                         <div className={`priority_${task.priority}`}>{task.priority}</div>
                         <p className="card-description-task">{task.name}</p>
                         <p className="card-desc">{task.description}</p>
-                        <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
+                        <Progress className='progress' percent={task.progress} strokeColor="#744ae2" status="active" size={[290, 15]}/>
                         <div className="card-footer-task">
                         <div className='buttons' onClick={() => handleOpenModal(task._id)}>
                                 <img src={img} style={{height:25,cursor:"pointer"}}/>
@@ -321,7 +348,10 @@ const {id} =useParams();
                           </div>
                         )}
                       </Draggable>
-                    ))}
+                    ))
+                    ) : (
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    )}
                     {provided.placeholder}
                   </div>
                 </div>
@@ -338,8 +368,9 @@ const {id} =useParams();
                   <div className='col-task'>
                   <span className='task_list'>Done</span>
                   <span className='row-number-3'>{tasksDone.length}</span>
-                    {tasksDone.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {tasksDone.length > 0 ? (
+                    tasksDone.map((task, index) => (
+                      <Draggable key={task._id} draggableId={task._id} index={index}>
                         {(provided) => (
                           <div
                             className='taskcard'
@@ -351,7 +382,7 @@ const {id} =useParams();
                             <div className={`priority_${task.priority}`}>{task.priority}</div>
                                 <p className="card-description-task">{task.name}</p>
                                 <p className="card-desc">{task.description}</p>
-                                <Progress className='progress' percent={50} status="active" strokeColor="#ff6201c9" size={[290, 15]}/>
+                                <Progress className='progress' percent={task.progress} strokeColor="#744ae2" status="active" size={[290, 15]}/>
                                 <div className="card-footer-task">
                                 <div className='buttons' onClick={() => handleOpenModal(task._id)}>
                                 <img src={img} style={{height:25,cursor:"pointer"}}/>
@@ -366,7 +397,10 @@ const {id} =useParams();
                           </div>
                         )}
                       </Draggable>
-                    ))}
+                     ))
+                     ) : (
+                       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                     )}
                     {provided.placeholder}
                   </div>
                 </div>
@@ -388,10 +422,10 @@ const {id} =useParams();
       <TodoForm fetchTodos={fetchTodos}/>
       {todos.map((todo) =>
         todo.isEditing ? (
-          <EditTodo editTodo={editTask} task={todo} key={todo.id} />
+          <EditTodo editTodo={editTask} task={todo} key={todo._id} />
         ) : (
           <Todo
-            key={todo.id}
+            key={todo._id}
             task={todo}
             deleteTodo={deleteTodo}
             editTodo={editTodo}
