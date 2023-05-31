@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './Collapse.css';
-import { Button, Popconfirm ,Result} from 'antd';
+import { Button, Popconfirm ,Result ,Spin} from 'antd';
 import {FieldTimeOutlined,ContainerOutlined,ExclamationCircleOutlined,DeleteOutlined} from "@ant-design/icons";
 
 const CollapseList = () => {
@@ -83,6 +83,7 @@ const CollapseList = () => {
     axios
       .get('http://localhost:2000/chatGpt/task-list')
       .then((response) => {
+        
         if (response.data.listItems && response.data.listItems.length > 0) {
           console.log(response.data.listItems);
           const listItems = response.data.listItems;
@@ -102,6 +103,8 @@ const CollapseList = () => {
         } else {
           console.log('Empty listItems response.');
         }
+        setLoading(false);
+
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -168,8 +171,8 @@ const CollapseList = () => {
                   {memberTasks
                 .filter((task) => task.status === 'completed')
                 .map((task) => (
-                  <div key={task._id} style={{paddingLeft:5,display:'flex',gap:10,paddingTop:5}}>
-                    <input type='checkbox' style={{width:45}} id={task._id} className='check'/>
+                  <div key={task._id} style={{marginLeft:5,display:'flex',gap:10,marginTop:5}}>
+                    <input type='checkbox' id={task._id} className='check'/>
                     <label for={task._id}>{task.name}</label>
                   </div>
                 ))}
@@ -200,26 +203,35 @@ const CollapseList = () => {
           ))}
         <div style={{paddingLeft:20,paddingTop:20}}>
           <p className='suggestedtasks'>Suggested Tasks</p>
-      {oumaymaTasks.map((task, index) => (
-        <div style={{display:'flex',justifyContent:"space-between"}}>
-        <div style={{paddingLeft:5,display:'flex',gap:10,paddingTop:5}}>
-        <input type='checkbox' id={index} className='check'onChange={() => handleTaskCheck(task,member._id)} />
-        <label key={index}>{task}</label>
+          <div>
+    {loading ? (
+      <div>Please wait...</div>
+    ) : oumaymaTasks ? (
+      oumaymaTasks.map((task, index) => (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ paddingLeft: 5, display: 'flex', gap: 10, paddingTop: 5 }}>
+            <input type='checkbox' id={index} className='check' onChange={() => handleTaskCheck(task, member._id)} />
+            <label key={index}>{task}</label>
+          </div>
+          <Popconfirm
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            okText="Yes"
+            cancelText="No"
+            onCancel={(e) => e.stopPropagation()}
+            onConfirm={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <button type="link" className='btnDelete'>Delete</button>
+          </Popconfirm>
         </div>
-        <Popconfirm
-        title="Delete the task"
-        description="Are you sure to delete this task?"
-        okText="Yes"
-        cancelText="No"
-        onCancel={(e) => e.stopPropagation()}
-        onConfirm={(e) => {
-          e.stopPropagation(); 
-        }}
-      >
-    <button type="link" className='btnDelete'>Delete</button>
-  </Popconfirm>
-        </div>
-      ))}
+      ))
+    ) : (
+      <div>No data</div>
+    )}
+  </div>
+
     </div>
     </div>
     )}

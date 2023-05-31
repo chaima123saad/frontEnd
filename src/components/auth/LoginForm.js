@@ -57,6 +57,9 @@ const App = () => {
         </Button>
       
       </Form.Item>
+      <link>
+      <p>Forgot Password ?</p>
+      </link>
     </Form>
   );
 };

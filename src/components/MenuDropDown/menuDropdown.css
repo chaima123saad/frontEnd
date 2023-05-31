@@ -40,4 +40,6 @@
   .icon-holder{
     color: white;
   }
- 
+  a:hover {
+    color:#363636;
+  }

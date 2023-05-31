@@ -1,18 +1,134 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import ApexCharts from 'apexcharts';
-import "./Dash.css";
-import {CarryOutOutlined,UsergroupDeleteOutlined,UserSwitchOutlined,FallOutlined} from "@ant-design/icons";
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.barChartRef = React.createRef();
-    this.areaChartRef = React.createRef();
-  }
+import './Dash.css';
+import {
+  CarryOutOutlined,
+  UsergroupDeleteOutlined,
+  UserSwitchOutlined,
+  FallOutlined,
+  HourglassOutlined
+} from '@ant-design/icons';
+import dayjs from 'dayjs';
 
-  componentDidMount() {
+import { Col, Row, Statistic } from 'antd';
+import { DesktopAccessDisabled } from '@mui/icons-material';
+const { Countdown } = Statistic;
+
+const onFinish = () => {
+  console.log('finished!');
+};
+const onChange = (val) => {
+  if (typeof val === 'number' && 4.95 * 1000 < val && val < 5 * 1000) {
+    console.log('changed!');
+  }
+};
+
+const Dashboard = () => {
+  const barChartRef = useRef(null);
+  const areaChartRef = useRef(null);
+  const [completedTasksCount, setCompletedTasksCount] = useState(0);
+  const [overdueTasksCount, setOverdueTasksCount] = useState(0);
+  const [barChartData, setBarChartData] = useState([]);
+  const [barChartCategories, setBarChartCategories] = useState([]);
+  const [curbData, setCurbData] = useState([]);
+  const [overdueData,setOverduCurbData]= useState([]);
+  const [teamName,setTeamNames]= useState([]);
+  const [projectSta,setProjectSta]=useState([]);
+  const [limDate,setLimiteDate]=useState(null);
+  
+
+  useEffect(() => {
+    axios.get('http://localhost:2000/projects/')
+      .then(response => {
+        const projects = response.data;
+        if(projects){
+        const data = projects.map(project => project.progress);
+        const categories = projects.map(project => project.name);
+        setBarChartData(data);
+        setBarChartCategories(categories);
+        
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+useEffect(()=>{
+  axios.get('http://localhost:2000/statistics/nearestLimitDate')
+  .then(response => {
+    setProjectSta(response.data.projects);
+    const date=new Date(response.data.projects[0].limiteDate);
+    const currentTime = new Date();
+      const remainingTimeInSeconds = Math.floor((date.getTime() - currentTime.getTime()) / 1000);
+      console.log("remainingTimeInSeconds",remainingTimeInSeconds);
+      setLimiteDate(remainingTimeInSeconds);
+
+  })
+  .catch(error => {
+    console.log(error);
+  });
+  }, []);
+
+
+ 
+
+      
+
+  useEffect(() => {
+    axios.get('http://localhost:2000/teams/')
+      .then((response) => {
+        const teamProgressArray = [];
+        const teamOverdueArray = [];
+        const teamNamesArray = response.data.map((team) => team.name);
+        setTeamNames(teamNamesArray);
+
+  
+        Promise.all(
+          response.data.map((team) =>
+          
+            axios.get(`http://localhost:2000/statistics/teamProgress/${team._id}`),
+            
+          )
+        )
+          .then((responses) => {
+            responses.forEach((response) => {
+              teamProgressArray.push(response.data.teamProgress);
+              teamOverdueArray.push(100-response.data.teamProgress);
+
+            });
+  
+            console.log("teamProgressArray:", teamProgressArray);
+            console.log("teamNamesArray:", teamNamesArray);
+            setCurbData(teamProgressArray);
+            setOverduCurbData(teamOverdueArray);
+
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  
+  
+
+  useEffect(()=>{
+    if(limDate != null){
+      console.log("limDate:",limDate); 
+    }
+      }, [limDate]);
+
+
+
+  useEffect(() => {
+    
     const barChartOptions = {
       series: [{
-        data: [10, 8, 6, 4, 2]
+        data: barChartData
       }],
       chart: {
         type: 'bar',
@@ -22,11 +138,11 @@ class Dashboard extends React.Component {
         },
       },
       colors: [
-        "#0085ff",
-        "#ef4444",
-        "#2B9D2F",
-        "#FFB800",
-        "#4f35a1"
+        
+       "#744ae2",
+       "#fe6f8d",
+       "#fa8d52",
+       "#feb637"
       ],
       plotOptions: {
         bar: {
@@ -43,24 +159,23 @@ class Dashboard extends React.Component {
         show: false
       },
       xaxis: {
-        categories: ["Projet 1", "Projet 2", "Projet 3", "Projet 4", "Projet 5"],
+        categories: barChartCategories,
       },
       yaxis: {
         title: {
-          text: "Count"
+          text: "Progress %"
         }
       }
     };
-    const barChart = new ApexCharts(this.barChartRef.current, barChartOptions);
-    barChart.render();
+    
 
     const areaChartOptions = {
       series: [{
-        name: 'Task Completion Rate',
-        data: [31, 40, 28, 51, 42, 109, 100]
+        name: 'Team Progress',
+        data: curbData
       }, {
-        name: 'Time-to-Completion',
-        data: [11, 32, 45, 32, 34, 52, 41]
+        name: 'Team Setback',
+        data: overdueData
       }],
       chart: {
         height: 350,
@@ -69,27 +184,27 @@ class Dashboard extends React.Component {
           show: false,
         },
       },
-      colors: ["#4f35a1", "#0085ff"],
+      colors: ["#744ae2", "#feb637"],
       dataLabels: {
         enabled: false,
       },
       stroke: {
         curve: 'smooth'
       },
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      labels: teamName,
       markers: {
         size: 0
       },
       yaxis: [
         {
           title: {
-            text: 'Task Completion Rate',
+            text: 'Team Progress',
           },
         },
         {
           opposite: true,
           title: {
-            text: 'Time-to-Completion',
+            text: 'Team Setback',
           },
         },
       ],
@@ -98,64 +213,98 @@ class Dashboard extends React.Component {
         intersect: false,
       }
     };
-    const areaChart = new ApexCharts(this.areaChartRef.current, areaChartOptions);
+
+    const barChart = new ApexCharts(barChartRef.current, barChartOptions);
+    const areaChart = new ApexCharts(areaChartRef.current, areaChartOptions);
+
+    barChart.render();
     areaChart.render();
-  }
 
-  render() {
+    return () => {
+      barChart.destroy();
+      areaChart.destroy();
+    };
+  }, [limDate,barChartData,barChartCategories,curbData,teamName,overdueData,projectSta]);
+
+  useEffect(() => {
+    axios.get('http://localhost:2000/statistics/completedTasksCount')
+      .then(response => {
+        setCompletedTasksCount(response.data.count);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    axios.get('http://localhost:2000/statistics/noCompletedTasksCount')
+      .then(response => {
+        setOverdueTasksCount(response.data.count);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+  }, []);
+     
+
     return (
-      <main className="main-container">
-        <div className="main-title">
-          <p className="title_dash">Dashboard</p>
-        </div>
-
-        <div className="main-cards">
-          <div className="card">
-            <div className="card-inner">
-              <p className="text-primary">Completed Tasks</p>
-              <span><CarryOutOutlined /></span>
-            </div>
-            <span className="text-primary font-weight-bold">249</span>
-          </div>
-
-          <div className="card">
-            <div className="card-inner">
-              <p className="text-primary">Overdue Tasks</p>
-              <span><FallOutlined /></span>
-            </div>
-            <span className="text-primary font-weight-bold">83</span></div>
-
-      <div className="card">
-        <div className="card-inner">
-          <p className="text-primary">Active Users</p>
-          <span className=""><UserSwitchOutlined /></span>
-        </div>
-        <span className="text-primary font-weight-bold">79</span>
+    <main className="main-container">
+    <div className="main-title">
+    <p className="title_dash">Dashboard</p>
+    </div>
+    <div className="main-cards">
+    <div className="card">
+      <div className="card-inner">
+        <p className="text-primary">Completed Tasks</p>
+        <span>
+          <CarryOutOutlined />
+        </span>
       </div>
-
-      <div className="card">
-        <div className="card-inner">
-          <p className="text-primary">Inactive Users</p>
-          <span className=""><UsergroupDeleteOutlined /></span>
-        </div>
-        <span className="text-primary font-weight-bold">56</span>
-      </div>
+      <span className="text-primary font-weight-bold">{completedTasksCount}/{completedTasksCount+overdueTasksCount}</span>
     </div>
 
-    <div className="charts">
-      <div className="charts-card">
-        <p className="chart-title">Project Analytics</p>
-        <div ref={this.barChartRef}></div>
+    <div className="card">
+      <div className="card-inner">
+        <p className="text-primary">Overdue Tasks</p>
+        <span>
+          <FallOutlined />
+        </span>
       </div>
-
-      <div className="charts-card">
-        <p className="chart-title"> Progress Overview</p>
-        <div ref={this.areaChartRef}></div>
-      </div>
+      <span className="text-primary font-weight-bold">{overdueTasksCount}/{completedTasksCount+overdueTasksCount}</span>
     </div>
-  </main>
+
+    <div className="card">
+ 
+  <div className="card-inner">
+        <p className="text-primary">{projectSta[0] ? projectSta[0].name : "no result"}</p>
+        <span>
+        <HourglassOutlined />
+                </span>
+      </div>
+  {limDate &&  (
+    <Countdown
+      value={dayjs().add(limDate, 's')}
+      format="D [D] H [H] m [M] s [S]"
+      onFinish={onFinish}
+      onChange={onChange}
+    />
+  )}
+</div>
+
+  </div>
+
+  <div className="charts">
+    <div className="charts-card">
+      <p className="chart-title">Project Analytics</p>
+      <div ref={barChartRef}></div>
+    </div>
+
+    <div className="charts-card">
+      <p className="chart-title"> Team Analytics</p>
+      <div ref={areaChartRef}></div>
+    </div>
+  </div>
+</main>
 );
-}
-}
+};
 
-export default Dashboard;
+export default Dashboard;    

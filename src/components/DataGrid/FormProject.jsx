@@ -10,11 +10,13 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .matches(/^[a-zA-Z\s]*$/, 'Name must not contain numbers')
     .required('Name is required'),
-    budge: Yup.number().positive("Budget must be a positive number").required("Budget is required"),
+    budget: Yup.number().positive("Budget must be a positive number").required("Budget is required"),
     priority: Yup.string().oneOf(["low", "medium", "high"], "Invalid option").required("Required"),
     clientName: Yup.string().required("Required"),
   team: Yup.string().required("Please select a team"),
   description:Yup.string().required("Please describe the project"),
+  limiteDate: Yup.date().required("Date Required"),
+
 
 });
 
@@ -24,22 +26,24 @@ const Form = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
-      budge: "",
+      budget: "",
       clientName: "",
       priority: "",
       team: "",
       description:"",
+      limiteDate:"",
     },
     validationSchema: validationSchema,
    
     onSubmit: (values, { resetForm }) => {
       const newProject = {
         name: values.name,
-        budge: values.budge,
+        budget: values.budget,
         clientName:values.clientName,
         priority: values.priority,
         team: values.team,
         description:values.description,
+        limiteDate:values.limiteDate,
       };
       axios
       .post("http://localhost:2000/projects/addProject", newProject)
@@ -87,8 +91,8 @@ const Form = () => {
       </td>
       <td>
       <div>
-        <label htmlFor="lastName">Budget:</label>
-        <input placeholder="Project Budget" className="inputEmp" type="text" id="budge" {...formik.getFieldProps("budge")} />
+        <label htmlFor="Budget">Budget:</label>
+        <input placeholder="Project Budget" className="inputEmp" type="text" id="budget" {...formik.getFieldProps("budget")} />
       </div>
       </td>
     </tr>
@@ -99,8 +103,8 @@ const Form = () => {
         ) : null}
       </td>
       <td>
-      {formik.touched.budge && formik.errors.budge ? (
-          <div className="error">{formik.errors.budge}</div>
+      {formik.touched.budget && formik.errors.budget ? (
+          <div className="error">{formik.errors.budget}</div>
         ) : null}
       </td>
     </tr>
@@ -149,10 +153,11 @@ const Form = () => {
         
       </div>
       </td>
-        <td>
+      <td>
       <div>
-        <label htmlFor="description">Description:</label>
-        <textarea placeholder="Describe the project ..." className="inputEmp" id="description" {...formik.getFieldProps("description")} />
+        <label htmlFor="limiteDate">Limite Date:</label>
+        <input className="inputEmp" type="date" id="limiteDate" {...formik.getFieldProps("limiteDate")} />
+        
       </div>
       </td>
     </tr>
@@ -163,11 +168,25 @@ const Form = () => {
           <div className="error">{formik.errors.team}</div>
         ) : null}
         </td>
+        
       <td>
-      {formik.touched.description && formik.errors.description ? (
-          <div className="error">{formik.errors.description}</div>
+      {formik.touched.limiteDate && formik.errors.limiteDate ? (
+          <div className="error">{formik.errors.limiteDate}</div>
         ) : null}
       </td>
+    </tr>
+    <tr>
+    <td>
+      <div>
+        <label htmlFor="description">Description:</label>
+        <textarea placeholder="Describe the project ..." className="inputEmp" id="description" {...formik.getFieldProps("description")} />
+      </div>
+      </td>
+    </tr>
+    <tr>
+    {formik.touched.description && formik.errors.description ? (
+          <div className="error">{formik.errors.description}</div>
+        ) : null}
     </tr>
   </tbody>
 </table>  

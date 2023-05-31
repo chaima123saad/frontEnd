@@ -5,24 +5,9 @@ import "./Archive.css";
 import img1 from "./folder.png";
 import { useParams ,Link} from 'react-router-dom';
 
-
-const VISIBLE_FIELDS = ['_id','name', 'clientName', 'budge', 'createdAt','updatedAt'];
-
 export default function DisableActionButtonsDataGridPro() {
-  const [data, setData] = useState([]);
 const {id} = useParams();
-  useEffect(() => {
-    axios.get('http://localhost:2000/projects/projects/completed')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
-  function getRowId(row) {
-    return row._id;
-  }
+
   return (
     <div style={{ height: 400, width: '100%' }} className='datatable'>
       <div className="Archive_title">
@@ -48,11 +33,6 @@ const {id} = useParams();
         <Link to={`/manager/${id}/archive/team`} className='box' style={{display:"flex",gap:"7rem",paddingLeft:20}}> 
         <img src={img1} style={{width:"60px",height:"60px",borderRadius:"10px"}}/>
         <p>Team Archive</p>
-        </Link>
-
-        <Link to={`/manager/${id}/archive/chat`} className='box' style={{display:"flex",gap:"7rem",paddingLeft:20}}> 
-        <img src={img1} style={{width:"60px",height:"60px",borderRadius:"10px"}}/>
-        <p>Chat Archive</p>  
         </Link>
 
         </div>

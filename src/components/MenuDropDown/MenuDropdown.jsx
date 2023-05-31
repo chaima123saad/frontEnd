@@ -69,7 +69,8 @@ const MenuDropdown = () => {
     };
 
     fetchUserInfo();
-  }, []);
+  }, [userInfo]);
+
   const handleLogout = async () => {
     try {
       navigate('/');
@@ -130,22 +131,23 @@ const MenuDropdown = () => {
             <Paper style={{ marginRight: '0.2rem' }}>
               <ClickAwayListener onClickAway={() => handleClose}>
               <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-              <Button onClick={() => setOpen0(true)} style={{paddingLeft:20,color:'black',fontWeight:500,fontSize:18,color:'#363636',textTransform:'none'}}>
-                <UserOutlined />&nbsp;&nbsp; Profile
+              <Button onClick={() => setOpen0(true)} className='btnP' style={{paddingLeft:20,fontWeight:500,fontSize:18,color:'#363636',textTransform:'none'}}>
+                <UserOutlined />&nbsp;&nbsp; Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </Button>
                 <Modal
                   title="Profile"
                   centered
                   open={open0}
-                  onOk={() => setOpen0(false)}
                   onCancel={() => setOpen0(false)}
                   width={700}
+                  footer={null}
                 >
                   <Profil/>
                 </Modal>
                   <MenuItem  component={Link} to="/login">
                     <ActionLink
-                      label="Déconnecter"
+                      label="Log Out"
+                      style={{color:"black"}}
                       icon={<MdLogout />}
                       className="text-muted full-width"
                       url="/login"

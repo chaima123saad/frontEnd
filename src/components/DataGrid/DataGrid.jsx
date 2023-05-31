@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import FormProject from "./FormProject";
 import { useParams,Link } from "react-router-dom";
+import {PlusCircleFilled} from "@ant-design/icons";
 
 const Datatable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -70,7 +71,7 @@ const Datatable = () => {
     },
     { field: "status", headerName: "Status", width: 150 },
     { field: "clientName", headerName: "Client", width: 150 },
-    { field: "budge", headerName: "Budge", width: 150 },
+    { field: "budget", headerName: "Budget", width: 150 },
   ];
 
   const actionColumn = [
@@ -116,7 +117,7 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Project
-        <button className="addEmp" onClick={showLargeDrawer}> Add Project</button>
+        <button className="addEmp" onClick={showLargeDrawer}><PlusCircleFilled/>&nbsp;&nbsp; Add Project</button>
       </div>
       <DataGrid
         className="datagrid"

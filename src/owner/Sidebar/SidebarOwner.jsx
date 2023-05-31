@@ -35,7 +35,7 @@ const Sidebar = () => {
   const location = useLocation();
   const links =[
     {
-      key: "nav11",
+      key: "nav1",
       icon: <DashboardOutlined />,
       label: "Dashboard",
       route:`/owner/${id}`,
@@ -64,12 +64,7 @@ const Sidebar = () => {
       label: "Task",
       route: `/owner/${id}/task`,
     },
-    {
-      key: "nav88",
-      icon: <HistoryOutlined />,
-      label: "Check my history",
-      route: `/owner/${id}/nav88`,
-    },
+    
   ]
   const items = links.map((item) => {
     return {

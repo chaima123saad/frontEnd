@@ -17,7 +17,7 @@
 
 .main-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   margin: 20px 0;
 }
@@ -34,21 +34,19 @@
   box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
 }
 
+
 .card:first-child {
-  border-left: 7px solid #0085ff;
+  border-left: 7px solid #feb637;
 }
 
 .card:nth-child(2) {
-  border-left: 7px solid #FFB800;
+  border-left: 7px solid #744ae2;
 }
 
 .card:nth-child(3) {
-  border-left: 7px solid #2B9D2F;
+  border-left: 7px solid #fe6f8d;
 }
 
-.card:nth-child(4) {
-  border-left: 7px solid #ef4444;
-}
 
 .card > span {
   font-size: 20px;

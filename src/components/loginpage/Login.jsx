@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import './Login.css';
 import axios from "axios";
 import waveImg from './img/back.png';
 import avatarImg from './img/padlock.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import img from './img/tasks.png';
 function Login() {
   const [email, setEmail] = useState('');
@@ -70,6 +70,9 @@ function Login() {
       <img src={img} style={{ paddingLeft: "1.5rem",width:180,paddingTop:"1rem" }}/>
         <div className="login-content">
           <form onSubmit={handleSubmit} >
+          <Link to={`/forgot-password`} className="link">
+          <p>Forgot Password ?</p>         
+           </Link>
             <div style={{display:'flex',gap:25}}>
             <img src={avatarImg} alt="avatar" style={{height:60}}/>
             <h2 className="title">Welcome</h2>
@@ -96,6 +99,9 @@ function Login() {
             </div>
             <input type="submit" className="btn_" value="Login" href="employe" />
           </form>
+         
+          
+
         </div>
         <img src={waveImg} className='blue'/>
         </div>

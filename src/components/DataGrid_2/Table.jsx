@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Drawer,Modal} from 'antd';
+import {PlusCircleFilled} from "@ant-design/icons";
 import Form from "./Form";
 const Datatable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -135,7 +136,7 @@ const {id}=useParams();
     <div className="datatable">
       <div className="datatableTitle">
         Employee
-        <button className="addEmp" onClick={showLargeDrawer}> Add Employee</button>
+        <button className="addEmp" onClick={showLargeDrawer}><PlusCircleFilled />&nbsp;&nbsp; Add Employee</button>
       </div>
       <DataGrid
         className="datagrid"

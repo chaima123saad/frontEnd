@@ -82,12 +82,7 @@ const Sidebar = () => {
       label: "Explore archive",
       route: `/manager/${id}/archive`,
     },
-    {
-      key: "nav8",
-      icon: <HistoryOutlined />,
-      label: "Check my history",
-      route: `/manager/${id}/nav8`,
-    },
+   
   ]
   const items = links.map((item) => {
     return {

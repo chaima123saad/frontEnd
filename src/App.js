@@ -22,8 +22,8 @@ import Chat from './owner/Chat/ChatOwner';
 import ArchiveProject from './components/Archive/ArchiveProject';
 import ArchiveEmployee from './components/Archive/ArchiveEmployee';
 import ArchiveTeam from './components/Archive/ArchiveTeam';
-import ArchiveChat from './components/Archive/ArchiveChat';
-
+import ResetPassword from './components/auth/ResetPassword';
+import ForgotPassword from './components/auth/ForgotPassword';
 
 
 function App() {
@@ -33,28 +33,35 @@ function App() {
       <Router>
         <Routes>
 
-        <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
           <Route path="/" >
               <Route index element={<Home/>} />
               <Route path='/about' element={<About />} />
               <Route path='/contact' element={<Contact />} />
           </Route>
+
           <Route path="/manager/:id" element={<Manager/>}>
             <Route index element={<Dashboard/>} />
             <Route path="/manager/:id/projects">
               <Route index element={<Project />} />
               <Route path=":projectId" element={<Pro/>} />
             </Route>
+
             <Route path="/manager/:id/nav3" element={<MyProject />} />
             <Route path="/manager/:id/users">
               <Route index element={<Users />} />
               <Route path=":userId" element={<Single/>} />
             </Route>
+
             <Route path="/manager/:id/nav5">
               <Route index element={<Team />} />
               <Route path=":teamId" element={<Members/>} />
               <Route path="edit/:teamId" element={<Edit/>} />
             </Route>
+
             <Route path="/manager/:id/chat" element={<Chat/>} />
             <Route path="/manager/:id/nav6" element={<Tasks />} />
             <Route path="/manager/:id/archive"  />
@@ -64,17 +71,18 @@ function App() {
               <Route path="projects" element={<ArchiveProject/>} />
               <Route path="employee" element={<ArchiveEmployee/>} />
               <Route path="team" element={<ArchiveTeam/>} />
-              <Route path="chat" element={<ArchiveChat/>} />
             </Route>
 
-            <Route path="/manager/:id/nav8" element={<p>nav8</p>} />
           </Route>
+
           <Route path="/owner/:id" element={<Owner/>}>
+          <Route index element={<Dashboard/>} />
           <Route path="/owner/:id/supervise" element={<Supervise />} />
           <Route path="/owner/:id/chat" element={<Chat />} />
           <Route path="/owner/:id/myproject" element={<MyProject />} />
           <Route path="/owner/:id/task" element={<Tasks />} />
           </Route>
+
         </Routes>
 
       </Router>

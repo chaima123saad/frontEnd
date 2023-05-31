@@ -30,4 +30,20 @@
     color: rgb(79, 79, 79);
 
   }
- 
+ .zonesearch{
+  border: 0.1rem solid rgba(154, 154, 154, 0.601);
+  background-color: rgba(240, 248, 255, 0);
+ }
+ .zonesearch:hover{
+  border: 0.12rem solid #744AE2;
+ }
+ .zonesearch:focus{
+  outline: none;
+  border: 0.12rem solid #744AE2;
+ }
+
+ .searchicon{
+  margin-top: 20px;
+  margin-right: -20px;
+  color: rgb(169, 169, 169);
+ }

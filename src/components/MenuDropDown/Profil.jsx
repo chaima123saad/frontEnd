@@ -38,17 +38,17 @@ function ProfilePage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [image]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('profileImage', file);
-    console.log(formData);
+    console.log("image data :",formData);
 
-    axios.put(`http://localhost:2000/users/updateImage/${id}`, formData)
+    axios.put(`http://localhost:2000/users/${id}`, formData)
       .then((response) => {
-        console.log('Image uploaded successfully');
+        setImage(response.data.profileImage);
       })
       .catch((error) => {
         console.log(error);
@@ -120,9 +120,11 @@ function ProfilePage() {
         <p className='th1'>Your profile picture</p>
           <div className="image-container">
             {image ? (
+             
               <img src={image} alt="Profile" className="profile-pic" />
+              
             ) : (
-              <div className="no-image"></div>
+              <img src='https://via.placeholder.com/150' alt="Profile" className="profile-pic" />
             )}
             <div className="buttons_container">
               <div className="file-upload">

@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { RightCircleOutlined, ClockCircleOutlined, BarsOutlined } from "@ant-design/icons";
+import { RightCircleOutlined, ClockCircleOutlined, BarsOutlined,UploadOutlined } from "@ant-design/icons";
 import "./Tasks.css";
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, message, Space,Empty, Modal,Progress } from 'antd';
+import { Dropdown, message, Space,Empty, Modal,Progress,Upload,Button } from 'antd';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useParams } from 'react-router-dom';
 import img from "./checklist.png";
 import { Todo } from "./subtasks/ToDo";
 import { TodoForm } from "./subtasks/ToDoForm";
 import { EditTodo } from "./subtasks/EditToDo";
-
+const props = {
+  action: '//jsonplaceholder.typicode.com/posts/',
+  listType: 'picture',
+  previewFile(file) {
+    console.log('Your upload file:', file);
+    // Your process logic. Here we just mock to the same file
+    return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
+      method: 'POST',
+      body: file,
+    })
+      .then((res) => res.json())
+      .then(({ thumbnail }) => thumbnail);
+  },
+};
 const Card = () => {
   const [open, setOpen] = useState(false);
   const [tasksToDo, setTasksToDo] = useState([]);
@@ -434,6 +447,8 @@ const {id} =useParams();
         )
       )}
     </div>
+    
+
       </Modal>
     </div>
   );

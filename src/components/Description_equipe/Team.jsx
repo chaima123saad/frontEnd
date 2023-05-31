@@ -25,8 +25,7 @@ const {id}=useParams();
     } else {
       setLoading(false);
       console.log("Team not found");
-      // Handle the case when teamId is null
-      // Return an error message or redirect to an error page
+     
     }
   }, [teamId]);
 
@@ -47,7 +46,6 @@ const {id}=useParams();
       })
       .catch((error) => {
         console.log(error);
-        // Handle error
       });
   };
 
