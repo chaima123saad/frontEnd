@@ -74,6 +74,8 @@ const Card = () => {
           setMembers(response.data.members);
           console.log("members : ",response.data.members);
           setLoading(false);
+          updateProjectStatus();
+
         })
         .catch((error) => {
           console.log(error);
@@ -91,30 +93,52 @@ const Card = () => {
 
   }; 
 
-  useEffect(() => {
-    axios.get('http://localhost:2000/projects/')
-      .then(response => {
-        const inProgressProjects = response.data.filter(project => project.status === 'inProgress');
-        setProjectsInProgress(inProgressProjects);
-        const toDoProjects = response.data.filter(project => project.status === 'toDo');
-        setProjectsToDo(toDoProjects);
-        const doneProjects = response.data.filter(project => project.status === 'completed');
-        setProjectsDone(doneProjects);
+  const updateProjectStatus = async () => {
+    try {
+      const response = await axios.get(`http://localhost:2000/teams/${teamId}/projects`);
+      const projects = response.data.projects;
+      const inProgressProjects = projects.filter(project => project.status === 'inProgress');
+      const toDoProjects = projects.filter(project => project.status === 'toDo');
+      const doneProjects = projects.filter(project => project.status === 'completed');
   
-        toDoProjects.forEach(project => {
-          axios.get(`http://localhost:2000/projects/${project._id}/tasks/count`)
-          .then(response => {
-            setTaskCounts(taskCounts => ({ ...taskCounts, [project._id]: response.data.taskNumber }));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+      if (inProgressProjects.length === 0 && toDoProjects.length > 0) {
+        const projectToMove = toDoProjects[0];
+        projectToMove.status = 'inProgress';
+        inProgressProjects.push(projectToMove);
+        toDoProjects.splice(0, 1);
+  
+        await axios.put(`http://localhost:2000/projects/updateProject/${projectToMove._id}`, { status: 'inProgress' });
+        console.log('Project status updated:', response.data);
+      }
+  
+      for (let i = 0; i < inProgressProjects.length; i++) {
+        const project = inProgressProjects[i];
+        if (project.progress === 100) {
+          project.status = 'completed';
+          doneProjects.push(project);
+          inProgressProjects.splice(i, 1);
+          i--;
+  
+          await axios.put(`http://localhost:2000/projects/updateProject/${project._id}`, { status: 'completed' });
+          console.log('Project status updated:', response.data);
+        }
+      }
+  
+      setProjectsInProgress(inProgressProjects);
+      setProjectsToDo(toDoProjects);
+      setProjectsDone(doneProjects);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(() => {
+    updateProjectStatus();
+    console.log(projectsToDo);
+  }, [projectsDone,projectsInProgress,projectsToDo]);
+
+
+
   
 
   useEffect(() => {
@@ -205,61 +229,6 @@ useEffect(() => {
  console.log("team : ",team);
   }
 }, [users]);
-
-
-
-
-useEffect(() => {
-  axios.get('http://localhost:2000/teams/644fcde1e7f894a5e3190e6c/projects')
-    .then(response => {
-      const projects = response.data.projects;
-      const inProgressProjects = projects.filter(project => project.status === 'inProgress');
-      const toDoProjects = projects.filter(project => project.status === 'toDo');
-      const doneProjects = projects.filter(project => project.status === 'completed');
-
-      if (inProgressProjects.length === 0 && toDoProjects.length > 0) {
-        const projectToMove = toDoProjects[0];
-        projectToMove.status = 'inProgress';
-        inProgressProjects.push(projectToMove);
-        toDoProjects.splice(0, 1);
-
-        // Save the updated project status in the database
-        axios.put(`http://localhost:2000/projects/updateProject/${projectToMove._id}`, { status: 'inProgress' })
-          .then(response => {
-            console.log('Project status updated:', response.data);
-          })
-          .catch(error => {
-            console.log('Error updating project status:', error);
-          });
-      }
-
-      for (let i = 0; i < inProgressProjects.length; i++) {
-        const project = inProgressProjects[i];
-        if (project.progress === 100) {
-          project.status = 'completed';
-          doneProjects.push(project);
-          inProgressProjects.splice(i, 1);
-          i--;
-
-          axios.put(`http://localhost:2000/projects/updateProject/${project._id}`, { status: 'completed' })
-            .then(response => {
-              console.log('Project status updated:', response.data);
-            })
-            .catch(error => {
-              console.log('Error updating project status:', error);
-            });
-        }
-      }
-
-      setProjectsInProgress(inProgressProjects);
-      setProjectsToDo(toDoProjects);
-      setProjectsDone(doneProjects);
-
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}, []);
 
 
 

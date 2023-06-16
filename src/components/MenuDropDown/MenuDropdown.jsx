@@ -69,7 +69,7 @@ const MenuDropdown = () => {
     };
 
     fetchUserInfo();
-  }, [userInfo]);
+  }, []);
 
   const handleLogout = async () => {
     try {

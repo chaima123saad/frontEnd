@@ -8,7 +8,7 @@
 }
 
 .blue{
-  margin-top: -70px;
+  margin-top: -0px;
 }
 .error-message-mdp {
   color: rgba(255, 0, 0, 0.632);
@@ -43,10 +43,11 @@ body{
 
 .login-content{
 	display: flex;
-	justify-content: center;
+	justify-content:center;
 	align-items: center;
 	text-align: center;
-	margin-top: 4rem;
+	margin-top: 6rem;
+	margin-left: 4rem;;
 	
 }
 .img img{
@@ -59,9 +60,10 @@ body{
 
 .login-content h2{
 	margin: 15px 0;
-	color: #333;
-	text-transform: uppercase;
-	font-size: 2.9rem;
+	color: #555555d9;
+	font-size:2rem;
+
+	
 }
 
 .login-content .input-div{
@@ -165,7 +167,7 @@ body{
 	display: block;
 	width: 100%;
 	height: 50px;
-	border-radius: 25px;
+	border-radius: 10px;
 	outline: none;
 	border: none;
 	background-image: linear-gradient(to right, #7247e0bd, #744ae2, #a896d8);
@@ -173,7 +175,6 @@ body{
 	font-size: 1.2rem;
 	color: #fff;
 	font-family: 'Poppins', sans-serif;
-	text-transform: uppercase;
 	margin: 1rem 0;
 	transition: 0.5s;
     margin-top: 50px;
@@ -195,7 +196,8 @@ body{
 	}
 
 	.login-content h2{
-        font-size: 2.4rem;
+        font-size:2rem;
+		color: #555;
         margin: 8px 0;
 	}
 
@@ -225,3 +227,7 @@ body{
   margin-bottom: 2cm;
 }
    
+.toforgot{
+	margin-right: 120px;
+	align-self: flex-end;
+}

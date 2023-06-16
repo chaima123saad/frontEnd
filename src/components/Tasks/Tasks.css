@@ -79,11 +79,11 @@
     font-weight: 600;
   }
   .row-number-2{
-    content: '';
+    
+    position: absolute;
     width: 1.2rem;
     height: 1.2rem;
     background-color: #ff6201c9;
-    position: absolute;
     border-radius: 50%;
     color: white;
     margin-left: 0.5rem;
@@ -133,7 +133,7 @@
     margin-bottom: 20px;
     width: 21.5rem;
     height: max-content;
-
+    position: relative;
     
   }
 
@@ -207,17 +207,12 @@ color: white;
 }
 
 
-
-
-
-
 .bodyModal {
   background: #8758ff;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-
 }
 
 
